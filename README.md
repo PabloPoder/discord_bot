@@ -1,8 +1,8 @@
-## Description
+## Description 📄
 
 This project is a Discord bot that performs various commands and functionalities. It is designed to enhance the user experience and provide useful features within a Discord server.
 
-## Features
+## Features ⚡
 
 - `/rlrank`: This command displays the rank of a Rocket League player.
 - `/books`: This command provides information about recommended books.
@@ -12,7 +12,7 @@ This project is a Discord bot that performs various commands and functionalities
 
 Feel free to explore and use these commands to enhance your Discord server!
 
-## Tools used
+## Tools used ⚙️
 
 - Language: Python
 - Libraries used: discord.py, aiohttp
