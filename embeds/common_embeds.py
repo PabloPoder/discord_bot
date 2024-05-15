@@ -1,4 +1,5 @@
-from discord import Embed, Member
+from discord import Asset, Embed, Member
+import discord
 
 from services.weather import WeatherData
 
@@ -97,5 +98,37 @@ def create_error_embed(title: str, description: str):
     title=title, 
     description=description
   )
+
+  return embed
+
+def create_commands_embed(image: Asset):
+  '''Create an embed with all the commands of the bot
+
+  Parameters
+  ----------
+  image: `Asset`
+    The image of the bot.
+  return: :class:`Embed`
+    The embed with all the commands of the bot.
+  '''
+  # Create an embed with all the commands of the bot
+  # Create embed with all the commands of my bot
+  embed = discord.Embed(
+    title="Commands",
+    description="Here are all my commands ",
+    color=discord.Color.blurple()
+  )
+
+  embed.set_thumbnail(url=image)
+
+  embed.add_field(name="`/avatar`", value="Displays the avatar of an user.", inline=False)
+  embed.add_field(name="`/eeorigins`", value="Gives you the guide to make Origins EE", inline=False)
+  embed.add_field(name="`/weather`", value="Gives you the current weather by city name", inline=False)
+  embed.add_field(name="`/rlrank`", value="Get the stats from a player of Rocket League", inline=False)
+  embed.add_field(name="`/books`", value="Search for books that contain this text", inline=False)
+  embed.add_field(name="`Creator:`", value="@ZOMB_-Frank", inline=False)
+
+  embed.set_author(name="Rachael Nexus-7 🤖🕵️🦄", icon_url=image)
+  embed.set_footer(text="Tyrell Corporation ", icon_url="https://res.cloudinary.com/teepublic/image/private/s--JL6qhWBz--/c_crop,x_10,y_10/c_fit,h_830/c_crop,g_north_west,h_1038,w_1038,x_-104,y_-104/l_upload:v1565806151:production:blanks:vdbwo35fw6qtflw9kezw/fl_layer_apply,g_north_west,x_-215,y_-215/b_rgb:000000/c_limit,f_auto,h_630,q_auto:good:420,w_630/v1663152101/production/designs/34889022_0.jpg")
 
   return embed
