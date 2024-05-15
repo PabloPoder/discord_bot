@@ -1,56 +1,90 @@
-
+'''
+This module contains the commands for the utilities cog. 
+The utilities cog contains commands that provide information about the bot, 
+the user, and other utilities like weather, books, and rocket league stats.
+'''
 import discord
 from discord.ext import commands
 from discord import Interaction
 
-from apikeys import TEST_SERVER_ID 
-from embeds.common_embeds import create_avatar_embed, create_commands_embed, create_eeorigins_embed, create_error_embed, create_weather_embed
+from apikeys import TEST_SERVER_ID
+from embeds.common_embeds import (
+  create_avatar_embed,
+  create_commands_embed,
+  create_eeorigins_embed,
+  create_error_embed,
+  create_weather_embed
+)
 from embeds.book_embeds import create_base_book_embed
 from embeds.rocket_league_embeds import create_base_rl_embed
 from services.books import get_books
 from services.rocket_league import get_rocket_league_stats_data
 from services.weather import get_weather_data
-from ui.BooksDropdown import BooksDropdown
-from ui.RLPlaylistsDropdown import RLPlaylistsDropdown
+from ui.books_dropdown import BooksDropdown
+from ui.rocketleague_playlists_dropdown import RLPlaylistsDropdown
 
 class Utilities(commands.Cog):
+  '''
+  A class used to represent the utilities cog.
+  '''
   def __init__(self, bot):
     self.bot = bot
 
   # region help
-  @discord.slash_command(name="commands", description="Displays all the commands", guild_ids=TEST_SERVER_ID)
+  @discord.slash_command(
+    name="commands",
+    description="Displays all the commands",
+    guild_ids=TEST_SERVER_ID
+  )
   async def commands(self, interaction: Interaction):
+    ''' 
+    Displays all the commands available
+    '''
     await interaction.response.defer()
 
     # Search the gif to display
-    file = discord.File(f"images/blade-runner-rachael1.gif", filename=f"blade-runner-rachael1.gif")
-    
+    file = discord.File("images/blade-runner-rachael1.gif", filename="blade-runner-rachael1.gif")
+
     # Create the embed with the commands
     embed = create_commands_embed(image = self.bot.user.display_avatar)
 
     # Send the embed
     await interaction.followup.send(
-      file=file, 
+      file=file,
       embed=embed
     )
   # endregion
 
   # region avatar
-  @discord.slash_command(name="avatar", description="Displays the avatar of an user", guild_ids=TEST_SERVER_ID)
+  @discord.slash_command(
+    name="avatar",
+    description="Displays the avatar of an user",
+    guild_ids=TEST_SERVER_ID
+  )
   async def avatar(self, interaction: Interaction, user: discord.Member):
+    '''
+    Displays the avatar of an user.
+    '''
     # Defer the response to prevent timeout
     await interaction.response.defer()
-    
+
     # Create the embed with the user's information
     embed = create_avatar_embed(user=user)
 
     # Send the message with the embed
     await interaction.followup.send(embed=embed)
-  # endregion  
+  # endregion
 
   # region eeorigins
-  @discord.slash_command(name="eeorigins", description="Gives you the guide to make Origins EE", guild_ids=TEST_SERVER_ID)
+  @discord.slash_command(
+    name="eeorigins",
+    description="Gives you the guide to make Origins EE",
+    guild_ids=TEST_SERVER_ID
+  )
   async def eeorigins(self, interaction: Interaction):
+    '''
+    Gives you the guide to make Origins EE
+    '''
     # Defer the response to prevent timeout
     await interaction.response.defer()
 
@@ -58,10 +92,14 @@ class Utilities(commands.Cog):
 
     # Send the message with the embed
     await interaction.followup.send(embed=embed)
-  # endregion 
+  # endregion
 
   # region weather information
-  @discord.slash_command(name='weather', description='Gives you the current weather by city name', guild_ids=TEST_SERVER_ID)
+  @discord.slash_command(
+    name='weather',
+    description='Gives you the current weather by city name',
+    guild_ids=TEST_SERVER_ID
+  )
   async def weather(self, interaction: Interaction, city):
     ''' Get the current weather by city name
 
@@ -78,18 +116,20 @@ class Utilities(commands.Cog):
 
     # Check if the weather data was fetched
     if weather_data is None:
-      embed = create_error_embed(title="Error 🤖", description="An error occurred while fetching the weather data."
+      embed = create_error_embed(
+        title="Error 🤖",
+        description="An error occurred while fetching the weather data."
       )
       await interaction.followup.send(embed=embed)
-      return 
-    
+      return
+
     # Create the embed with the weather data
-    embed = create_weather_embed(weather_data=weather_data)  
+    embed = create_weather_embed(weather_data=weather_data)
 
     # Send the message with the embed
     await interaction.followup.send(embed=embed)
   # endregion
-    
+
   # region rocket league stats
   @discord.slash_command(name='rlrank', description=' Get the stats from a player of Rocket League',
     guild_ids=TEST_SERVER_ID,
@@ -111,7 +151,10 @@ class Utilities(commands.Cog):
     # Check if the player exists
     if player is None:
       # Create the error embed
-      embed = create_error_embed(title="That player doesn't exist! 👻", description=f"Player with nametag {nametag} not found.")
+      embed = create_error_embed(
+        title="That player doesn't exist! 👻",
+        description=f"Player with nametag {nametag} not found."
+      )
       await interaction.followup.send(embed=embed)
       return
 
@@ -121,13 +164,17 @@ class Utilities(commands.Cog):
 
     # Create the embed with the player's stats
     embed = create_base_rl_embed(player=player)
-    
+
     # Send the message with the embed
     await interaction.followup.send(view=view, embed=embed)
   # endregion
 
   # region books
-  @discord.slash_command(name="books", description="Search for books that contain this text", guild_ids=TEST_SERVER_ID)
+  @discord.slash_command(
+    name="books",
+    description="Search for books that contain this text",
+    guild_ids=TEST_SERVER_ID
+  )
   async def books(self, interaction: Interaction, query: str):
     """Search for books that contain this text
 
@@ -144,7 +191,10 @@ class Utilities(commands.Cog):
 
     # Check if books were found
     if not books:
-      embed = create_error_embed(title="No Books Found 📚", description="No books found for your query.")
+      embed = create_error_embed(
+        title="No Books Found 📚",
+        description="No books found for your query."
+      )
       await interaction.followup.send(embed=embed)
       return
 
@@ -160,4 +210,7 @@ class Utilities(commands.Cog):
   # endregion
 
 def setup(bot):
+  '''
+  Add the Utilities cog to the bot.
+  '''
   bot.add_cog(Utilities(bot))

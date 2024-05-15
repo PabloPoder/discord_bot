@@ -1,5 +1,8 @@
-from discord import Asset, Embed, Member
+'''
+This module contains the functions to create the embeds of the bot.
+'''
 import discord
+from discord import Asset, Embed, Member
 
 from services.weather import WeatherData
 
@@ -14,9 +17,9 @@ def create_avatar_embed(user: Member):
     The embed with the user's information.
   '''
   # Get the user's date information and format it
-  created_at = user.created_at.strftime("%b %d, %Y")    
+  created_at = user.created_at.strftime("%b %d, %Y")
   joined_at = user.joined_at.strftime("%b %d, %Y") if user.joined_at else " _ "
-  
+
   # Create the embed with the user's information
   embed: Embed = Embed(
     color = user.color,
@@ -33,10 +36,10 @@ def create_eeorigins_embed():
 
   return: :class:`Embed`  
   '''
-  # Create an embed with the guide to make Origins EE 
+  # Create an embed with the guide to make Origins EE
   embed: Embed = Embed(
-    color=0x02DCFF, 
-    title="Origins Easter Egg Guide", 
+    color=0x02DCFF,
+    title="Origins Easter Egg Guide",
     description="'Every story has a beginning... and an end.'\n— 'Origins' trailer"
   )
   embed.set_image("https://i.imgur.com/GMtg61Q.jpeg")
@@ -68,9 +71,9 @@ def create_weather_embed(weather_data: WeatherData):
   embed.add_field(name='Sky Condition', value=weather_data.description, inline=True)
   embed.add_field(name='Wind Speed', value=weather_data.speed)
   embed.add_field(name='Humidity', value=weather_data.humidity, inline=True)
-  embed.add_field(name='Coulds', value=f"{weather_data.clouds} %", inline=True)
+  embed.add_field(name='Clouds', value=f"{weather_data.clouds} %", inline=True)
 
-  # Add a footer to the embed if the weather is cold or cloudy 
+  # Add a footer to the embed if the weather is cold or cloudy
   if int(weather_data.clouds) >= 70 or int(weather_data.temp) <= 12:
     embed.set_footer(
       text="Perfect time to play Skyrim!",
@@ -94,8 +97,8 @@ def create_error_embed(title: str, description: str):
   '''
   # Create the embed with the error message
   embed: Embed = Embed(
-    color=0xe74c3c, 
-    title=title, 
+    color=0xe74c3c,
+    title=title,
     description=description
   )
 
@@ -123,12 +126,27 @@ def create_commands_embed(image: Asset):
 
   embed.add_field(name="`/avatar`", value="Displays the avatar of an user.", inline=False)
   embed.add_field(name="`/eeorigins`", value="Gives you the guide to make Origins EE", inline=False)
-  embed.add_field(name="`/weather`", value="Gives you the current weather by city name", inline=False)
-  embed.add_field(name="`/rlrank`", value="Get the stats from a player of Rocket League", inline=False)
-  embed.add_field(name="`/books`", value="Search for books that contain this text", inline=False)
+  embed.add_field(
+    name="`/weather`",
+    value="Gives you the current weather by city name",
+    inline=False
+  )
+  embed.add_field(
+    name="`/rlrank`",
+    value="Get the stats from a player of Rocket League",
+    inline=False
+  )
+  embed.add_field(
+    name="`/books`",
+    value="Search for books that contain this text",
+    inline=False
+  )
   embed.add_field(name="`Creator:`", value="@ZOMB_-Frank", inline=False)
 
   embed.set_author(name="Rachael Nexus-7 🤖🕵️🦄", icon_url=image)
-  embed.set_footer(text="Tyrell Corporation ", icon_url="https://res.cloudinary.com/teepublic/image/private/s--JL6qhWBz--/c_crop,x_10,y_10/c_fit,h_830/c_crop,g_north_west,h_1038,w_1038,x_-104,y_-104/l_upload:v1565806151:production:blanks:vdbwo35fw6qtflw9kezw/fl_layer_apply,g_north_west,x_-215,y_-215/b_rgb:000000/c_limit,f_auto,h_630,q_auto:good:420,w_630/v1663152101/production/designs/34889022_0.jpg")
+  embed.set_footer(
+    text="Tyrell Corporation ",
+    icon_url="https://res.cloudinary.com/teepublic/image/private/s--JL6qhWBz--/c_crop,x_10,y_10/c_fit,h_830/c_crop,g_north_west,h_1038,w_1038,x_-104,y_-104/l_upload:v1565806151:production:blanks:vdbwo35fw6qtflw9kezw/fl_layer_apply,g_north_west,x_-215,y_-215/b_rgb:000000/c_limit,f_auto,h_630,q_auto:good:420,w_630/v1663152101/production/designs/34889022_0.jpg"
+  )
 
   return embed

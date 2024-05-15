@@ -1,4 +1,10 @@
+'''
+This module contains the WeatherData class, which is used to store the weather data of a city.
+'''
 class WeatherData:
+  '''
+  Represents the weather data of a city.
+  '''
   def __init__(self, name, country, icon, description, temp, feels_like, speed, humidity, clouds, main):
     self.name = name
     self.country = country
@@ -10,7 +16,7 @@ class WeatherData:
     self.humidity = f"{humidity} %"
     self.speed = f"{speed} m/seg"
     self.clouds = clouds
-  
+
   @classmethod
   def from_dict(cls, data):
     ''' Construct a new instance from a dictionary

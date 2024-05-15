@@ -1,6 +1,9 @@
+'''
+This module contains the functions to get the weather data from the OpenWeatherMap API.
+'''
 import aiohttp
 
-from classes.Weather import WeatherData
+from classes.weather import WeatherData
 
 from apikeys import WEATHER_ENDPOINT, WEATHER_TOKEN
 
@@ -34,6 +37,6 @@ async def get_weather_data(city:str):
         weather_data = WeatherData.from_dict(data)
 
         return weather_data
-  
-  except Exception as e:
+
+  except aiohttp.ClientError:
     return None

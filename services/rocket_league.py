@@ -1,7 +1,11 @@
+'''
+This module contains the methods to fetch and process 
+Rocket League player data from the Rocket League API.
+'''
 import aiohttp
 
 from apikeys import ROCKET_LEAGUE_ENDPOINT
-from classes.RocketLeague import Playlist, RocketLeaguePlayer
+from classes.rocket_league import Playlist, RocketLeaguePlayer
 
 async def fetch_player_data(nametag:str):
   ''' Fetch the player data from the Rocket League API
@@ -23,8 +27,8 @@ async def fetch_player_data(nametag:str):
       async with session.get(ROCKET_LEAGUE_ENDPOINT+nametag, headers=headers) as response:
         response.raise_for_status()
         return await response.json()
-  except Exception as err:
-    print(f"An error occurred while fetching the player data:")
+  except aiohttp.ClientError as err:
+    print("An error occurred while fetching the player data:")
     print(f"Player: {nametag}, Error: {err}")
   return None
 
@@ -37,9 +41,11 @@ def is_ranked_playlist(playlist):
       The playlist to check if it is a ranked playlist.
   return: bool
       True if the playlist is a ranked playlist, False otherwise. 
-      Playlists are considered to be ranked if their name is "Ranked Duel 1v1", "Ranked Doubles 2v2" or "Ranked Standard 3v3"
+      Playlists are considered to be ranked if their name is "Ranked Duel 1v1", 
+      "Ranked Doubles 2v2" or "Ranked Standard 3v3"
   '''
-  return playlist.get("metadata", {}).get("name") in ["Ranked Duel 1v1", "Ranked Doubles 2v2", "Ranked Standard 3v3"]
+  return playlist.get("metadata", {}).get("name") in [
+    "Ranked Duel 1v1", "Ranked Doubles 2v2", "Ranked Standard 3v3"]
 
 def is_playlist_type(playlist):
   ''' Check if the playlist is a ranked playlist
@@ -70,22 +76,26 @@ async def get_rocket_league_stats_data(nametag:str):
   # If no data is returned, exit the function
   if data is None:
     return None
-  
+
   # Extract all playlists from the retrieved player data
   playlists = data.get("data", {}).get("segments", [])
 
-  # Filter out playlists to include only 'ranked' type and exclude new types like 'peak-rating' and 'playlistAverage'
-  filtered_playlists = [playlist for playlist in playlists if is_ranked_playlist(playlist) and is_playlist_type(playlist)]
-  
+  # Filter out playlists to include only 'ranked' type and exclude new types
+  # like 'peak-rating' and 'playlistAverage'
+  filtered_playlists = [
+    playlist for playlist in playlists if is_ranked_playlist(playlist) and is_playlist_type(playlist)
+  ]
+
   # Transform each filtered playlist into a Playlist object and store them in a list
   playlists_data = [Playlist.from_dict(playlist) for playlist in filtered_playlists]
 
   # Extract the 'Lifetime' playlist from the list of playlists
   lifetime_playlist = [playlist for playlist in playlists if playlist.get("metadata", {}).get("name") == "Lifetime"]
 
-  # Construct a RocketLeaguePlayer object using the retrieved data, playlist data, and lifetime playlist
+  # Construct a RocketLeaguePlayer object using the retrieved data,
+  # playlist data, and lifetime playlist
   player =  RocketLeaguePlayer.from_data(data, playlists_data, lifetime_playlist)
-  
+
   # Return the constructed RocketLeaguePlayer object
   return player
    

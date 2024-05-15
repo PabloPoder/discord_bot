@@ -1,7 +1,13 @@
+'''
+  This file contains the classes used to represent the data of a Rocket League player.
+'''
 from typing import List
 
 
 class Playlist():
+  '''
+  Represents a rocket league playlist.
+  '''
   def __init__(self, name, tier, tier_icon, division, mmr, peak_mmr, win_streak):
     self.name = name
     self.tier = tier
@@ -37,9 +43,21 @@ class Playlist():
       peak_mmr=stats.get("peakRating", {}).get("value", 0),
       win_streak=stats.get("winStreak", {}).get("displayValue", ""),
     )
-  
+
 class RocketLeaguePlayer():
-  def __init__(self, name, playlists:List[Playlist], wins, goals, saves, assists, goals_shot_ratio, trn_rating):
+  '''
+  Represents a Rocket League player.
+  '''
+  def __init__(self,
+    name,
+    playlists:List[Playlist],
+    wins,
+    goals,
+    saves,
+    assists,
+    goals_shot_ratio,
+    trn_rating
+  ):
     self.name = name
     self.playlists = playlists
     self.wins = wins
@@ -54,10 +72,20 @@ class RocketLeaguePlayer():
 
   @classmethod
   def from_data(cls, data, playlists_data, lifetime_playlist):
+    '''
+    Creates a new instance of a Rocket League player from the data provided in the dictionary.
+    '''
     name = data["data"]["platformInfo"]["platformUserIdentifier"]
 
     if lifetime_playlist is None:
-      stats = {"wins": "-", "goals": "-", "saves": "-", "assists": "-", "goalShotRatio": "-", "tRNRating": "-"}
+      stats = {
+        "wins": "-",
+        "goals": "-",
+        "saves": "-",
+        "assists": "-",
+        "goalShotRatio": "-",
+        "tRNRating": "-"
+      }
     else:
       stats = lifetime_playlist[0]["stats"]
 

@@ -1,3 +1,7 @@
+'''
+This module contains the API keys for the bot. 
+The keys are loaded from the .env file using the `dotenv` library.
+'''
 import os
 from dotenv import load_dotenv
 
@@ -9,7 +13,11 @@ load_dotenv()
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 WEATHER_TOKEN = os.getenv('WEATHER_TOKEN')
 # TODO: remove this when we finish the bot creation
-TEST_SERVER_ID = [os.getenv('TEST_SERVER_ID_1'), os.getenv('TEST_SERVER_ID_2'), os.getenv('TEST_SERVER_ID_3')]
+TEST_SERVER_ID = [
+    os.getenv('TEST_SERVER_ID_1'),
+    os.getenv('TEST_SERVER_ID_2'),
+    os.getenv('TEST_SERVER_ID_3')
+]
 
 # Endpoints
 WEATHER_ENDPOINT = os.getenv('WEATHER_ENDPOINT')

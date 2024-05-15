@@ -1,23 +1,29 @@
+'''
+  This module contains the class Book, which is used to represent a book.
+'''
 class Book():
+  ''' 
+  Represents a book.
+  '''
   def __init__(
-    self, 
-    id,
-    name, 
-    authors, 
-    published_date, 
-    description, 
-    page_count, 
-    categories, 
-    average_rating, 
+    self,
+    book_id,
+    name,
+    authors,
+    published_date,
+    description,
+    page_count,
+    categories,
+    average_rating,
     thumbnail,
     publisher,
     language,
     url
   ):
-    self.id = id
+    self.book_id = book_id
     self.name = name
     self.published_date = published_date
-    self.description = description    
+    self.description = description
     self.page_count = page_count
     self.average_rating = average_rating
     self.thumbnail = thumbnail
@@ -40,7 +46,7 @@ class Book():
     return: :class:`Book`
     '''
     return cls(
-      id=item.get("id", ""),
+      book_id=item.get("id", ""),
       name=volume_info.get("title", ""),
       authors=volume_info.get("authors", " - "),
       published_date=volume_info.get("publishedDate", " -/-/- "),

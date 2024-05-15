@@ -1,3 +1,6 @@
+'''
+This module contains the functions to create the embeds for the books.
+'''
 import random
 from discord import Embed
 
@@ -49,11 +52,11 @@ def create_base_book_embed():
   '''
 
   embed:Embed = Embed(
-    title="Book", 
-    description="Select a book to view its details...", 
+    title="Book",
+    description="Select a book to view its details...",
     color=0xFFFF00
   )
-  embed.add_field(name="📖 Page Count:", value="0") 
+  embed.add_field(name="📖 Page Count:", value="0")
   embed.add_field(name="📅 Published Date:", value=" -/-/-")
   embed.add_field(name="⭐ Average Rating:", value="0")
   embed.add_field(name="🗣️ Language:", value=" - ")

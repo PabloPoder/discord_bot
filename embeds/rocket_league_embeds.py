@@ -1,3 +1,6 @@
+'''
+This module contains the functions to create the embeds for the the Rocket League commands.
+'''
 from discord import Embed
 from const import NOOBIES, RL_RANK_COLORS, UNRANKED_ICON
 from services.rocket_league import Playlist, RocketLeaguePlayer
@@ -64,7 +67,7 @@ def create_rl_embed(playlist: Playlist, player: RocketLeaguePlayer):
 
   # If the player is a noobie, add a special message
   if player.name in NOOBIES and "Diamond" in playlist.tier:
-    embed.add_field(name='💎 Hardstuck player alert', value="This player is a noobie! 🤣") 
+    embed.add_field(name='💎 Hardstuck player alert', value="This player is a noobie! 🤣")
 
   embed.set_footer(
     text=playlist.name,
