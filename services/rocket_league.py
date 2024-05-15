@@ -1,4 +1,3 @@
-from typing import List
 import aiohttp
 
 from apikeys import ROCKET_LEAGUE_ENDPOINT
@@ -55,10 +54,10 @@ def is_playlist_type(playlist):
   '''
   return playlist.get("type", {}) == "playlist"
 
-async def get_rocketleague_stats_data(nametag:str):
+async def get_rocket_league_stats_data(nametag:str):
   ''' Get statistics from a Rocket League player
 
-  This methods makes a request and tranform the data into a :class:`RocketLeaguePlayer` object
+  This methods makes a request and transform the data into a :class:`RocketLeaguePlayer` object
 
   Parameters
   ----------

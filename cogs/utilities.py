@@ -1,15 +1,14 @@
 
 import discord
-import discord.cooldowns
 from discord.ext import commands
 from discord import Interaction
 
 from apikeys import TEST_SERVER_ID 
 from embeds.common_embeds import create_avatar_embed, create_eeorigins_embed, create_error_embed, create_weather_embed
 from embeds.book_embeds import create_base_book_embed
-from embeds.rocketleague_embeds import create_base_rl_embed
+from embeds.rocket_league_embeds import create_base_rl_embed
 from services.books import get_books
-from services.rocketleague import get_rocketleague_stats_data
+from services.rocket_league import get_rocket_league_stats_data
 from services.weather import get_weather_data
 from ui.BooksDropdown import BooksDropdown
 from ui.RLPlaylistsDropdown import RLPlaylistsDropdown
@@ -90,7 +89,7 @@ class Utilities(commands.Cog):
     await interaction.response.defer()
 
     # Get the player's stats 
-    player = await get_rocketleague_stats_data(nametag=nametag)
+    player = await get_rocket_league_stats_data(nametag=nametag)
 
     # Check if the player exists
     if player is None:

@@ -8,12 +8,10 @@ from apikeys import BOT_TOKEN
 intents = discord.Intents.all()
 intents.members = True
 
-description = '''An example bot to showcase the disxord.ext.commands extension module.
-There are a number of utility commands bein showcased here'''
 
 bot = commands.Bot(command_prefix='/', intents=intents)
 
-# region on_readey event
+# region on_ready event
 @bot.event
 async def on_ready():
   await bot.change_presence(

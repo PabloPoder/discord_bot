@@ -4,8 +4,8 @@ from typing import List
 from discord.ui import Select
 from discord import Interaction, SelectOption 
 
-from embeds.rocketleague_embeds import create_rl_embed
-from services.rocketleague import Playlist, RocketLeaguePlayer
+from embeds.rocket_league_embeds import create_rl_embed
+from services.rocket_league import Playlist, RocketLeaguePlayer
 
 class RLPlaylistsDropdown(Select):
   def __init__(self, playlists: List[Playlist] = None, player: RocketLeaguePlayer = None):

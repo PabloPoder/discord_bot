@@ -7,7 +7,7 @@ from typing import List
 from classes.Book import Book
 
 # region get_books - get books from google books api
-async def fecth_books(query:str):
+async def fetch_books(query:str):
   try:
     async with aiohttp.ClientSession() as session:
       async with session.get(GOOGLE_BOOKS_ENDPOINT+query) as response:
@@ -31,7 +31,7 @@ async def get_books(query: str):
   '''
 
   # Get the books from the Google Books API
-  data = await fecth_books(query)
+  data = await fetch_books(query)
   
   if data is None:
     return None

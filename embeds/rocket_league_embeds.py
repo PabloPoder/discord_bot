@@ -1,6 +1,6 @@
 from discord import Embed
 from const import NOOBIES, RL_RANK_COLORS, UNRANKED_ICON
-from services.rocketleague import Playlist, RocketLeaguePlayer
+from services.rocket_league import Playlist, RocketLeaguePlayer
 
 
 def create_base_rl_embed(player: RocketLeaguePlayer):
