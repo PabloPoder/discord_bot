@@ -5,7 +5,7 @@ from discord.ext import commands
 from discord import Interaction
 
 from apikeys import TEST_SERVER_ID 
-from embeds.common_embeds import create_avatar_embed, create_eeorigins_embed, create_error_embed, create_weather_embed
+from embeds.common_embeds import create_avatar_embed, create_commands_embed, create_eeorigins_embed, create_error_embed, create_weather_embed
 from embeds.book_embeds import create_base_book_embed
 from embeds.rocketleague_embeds import create_base_rl_embed
 from services.books import get_books
@@ -15,11 +15,29 @@ from ui.BooksDropdown import BooksDropdown
 from ui.RLPlaylistsDropdown import RLPlaylistsDropdown
 
 class Utilities(commands.Cog):
-  def __init__(self,bot):
+  def __init__(self, bot):
     self.bot = bot
-  
+
+  # region help
+  @discord.slash_command(name="commands", description="Displays all the commands", guild_ids=TEST_SERVER_ID)
+  async def commands(self, interaction: Interaction):
+    await interaction.response.defer()
+
+    # Search the gif to display
+    file = discord.File(f"images/blade-runner-rachael1.gif", filename=f"blade-runner-rachael1.gif")
+    
+    # Create the embed with the commands
+    embed = create_commands_embed(image = self.bot.user.display_avatar)
+
+    # Send the embed
+    await interaction.followup.send(
+      file=file, 
+      embed=embed
+    )
+  # endregion
+
   # region avatar
-  @discord.slash_command(name="avatar", description="Displays the avatar of a user", guild_ids=TEST_SERVER_ID)
+  @discord.slash_command(name="avatar", description="Displays the avatar of an user", guild_ids=TEST_SERVER_ID)
   async def avatar(self, interaction: Interaction, user: discord.Member):
     # Defer the response to prevent timeout
     await interaction.response.defer()
@@ -30,7 +48,7 @@ class Utilities(commands.Cog):
     # Send the message with the embed
     await interaction.followup.send(embed=embed)
   # endregion  
-    
+
   # region eeorigins
   @discord.slash_command(name="eeorigins", description="Gives you the guide to make Origins EE", guild_ids=TEST_SERVER_ID)
   async def eeorigins(self, interaction: Interaction):
@@ -74,7 +92,6 @@ class Utilities(commands.Cog):
   # endregion
     
   # region rocket league stats
-  # add cooldown to the slash command
   @discord.slash_command(name='rlrank', description=' Get the stats from a player of Rocket League',
     guild_ids=TEST_SERVER_ID,
   )
