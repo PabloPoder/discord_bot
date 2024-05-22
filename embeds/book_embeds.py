@@ -2,6 +2,7 @@
 This module contains the functions to create the embeds for the books.
 '''
 import random
+import discord
 from discord import Embed
 
 from const import MOTIVATIONAL_QUOTES
@@ -26,7 +27,7 @@ def create_book_embed(book: Book):
       The embed with the book's information.
   '''
   embed:Embed = Embed(
-    color=get_random_color(),
+    color=discord.Color.blurple(),
     title=book.name,
     description=book.description[:200] + "...",
     url=book.url,
@@ -54,7 +55,7 @@ def create_base_book_embed():
   embed:Embed = Embed(
     title="Book",
     description="Select a book to view its details...",
-    color=0xFFFF00
+    color=discord.Color.blurple()
   )
   embed.add_field(name="📖 Page Count:", value="0")
   embed.add_field(name="📅 Published Date:", value=" -/-/-")

@@ -1,3 +1,17 @@
+'''
+This module contains constants related to motivational quotes, Rocket League ranks, and YouTube.
+
+Motivational quotes:
+- MOTIVATIONAL_QUOTES: A list of motivational quotes.
+
+Rocket League:
+- RL_RANK_COLORS: A dictionary mapping Rocket League ranks to their corresponding colors.
+- UNRANKED_ICON: A string representing the URL of the unranked icon.
+- NOOBIES: A list of usernames representing new players.
+
+YouTube:
+- (No constants defined yet)
+'''
 # region books
 MOTIVATIONAL_QUOTES = [
     "Every page is a step closer to greatness.",
@@ -34,4 +48,13 @@ NOOBIES = [
   "Milurk",
   "Amnessia"
 ]
+# endregion
+
+# region youtube
+YT_DL_OPTIONS = {"format": "bestaudio/best"}
+# endregion
+
+# region spotify
+SPOTIFY_SCOPE = "user-top-read user-library-read playlist-modify-public playlist-modify-private"
+SPOTIFY_REDIRECT_URI = "http://localhost:8888/"
 # endregion

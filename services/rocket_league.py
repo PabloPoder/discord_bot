@@ -16,11 +16,16 @@ async def fetch_player_data(nametag:str):
       The name of the player to get the stats from.
   headers : `dict`
       The headers to use for the request.
-  return: `dict`
+  
+  Returns
+  -------
+  dict
+      The player data from the Rocket League API.
   '''
   # Set the headers for the request, simulate the request from a browser
   headers = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "+
+    "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
   }
   try:
     async with aiohttp.ClientSession() as session:
@@ -45,7 +50,7 @@ def is_ranked_playlist(playlist):
       "Ranked Doubles 2v2" or "Ranked Standard 3v3"
   '''
   return playlist.get("metadata", {}).get("name") in [
-    "Ranked Duel 1v1", "Ranked Doubles 2v2", "Ranked Standard 3v3"]
+    "Ranked Duel 1v1", "Ranked Doubles 2v2", "Ranked Standard 3v3", "Tournament Matches"]
 
 def is_playlist_type(playlist):
   ''' Check if the playlist is a ranked playlist
@@ -83,14 +88,16 @@ async def get_rocket_league_stats_data(nametag:str):
   # Filter out playlists to include only 'ranked' type and exclude new types
   # like 'peak-rating' and 'playlistAverage'
   filtered_playlists = [
-    playlist for playlist in playlists if is_ranked_playlist(playlist) and is_playlist_type(playlist)
+    playlist for playlist in playlists if is_ranked_playlist(playlist)
+      and is_playlist_type(playlist)
   ]
 
   # Transform each filtered playlist into a Playlist object and store them in a list
   playlists_data = [Playlist.from_dict(playlist) for playlist in filtered_playlists]
 
   # Extract the 'Lifetime' playlist from the list of playlists
-  lifetime_playlist = [playlist for playlist in playlists if playlist.get("metadata", {}).get("name") == "Lifetime"]
+  lifetime_playlist = [playlist for playlist in playlists
+    if playlist.get("metadata", {}).get("name") == "Lifetime"]
 
   # Construct a RocketLeaguePlayer object using the retrieved data,
   # playlist data, and lifetime playlist

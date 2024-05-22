@@ -55,4 +55,3 @@ def load_extensions():
 
 load_extensions()
 bot.run(BOT_TOKEN)
-

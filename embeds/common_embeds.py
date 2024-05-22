@@ -38,7 +38,7 @@ def create_eeorigins_embed():
   '''
   # Create an embed with the guide to make Origins EE
   embed: Embed = Embed(
-    color=0x02DCFF,
+    color=discord.Color.blurple(),
     title="Origins Easter Egg Guide",
     description="'Every story has a beginning... and an end.'\n— 'Origins' trailer"
   )
@@ -59,7 +59,7 @@ def create_weather_embed(weather_data: WeatherData):
   '''
   # Create the embed with the weather data
   embed: Embed = Embed(
-    color=0x02DCFF,
+    color=discord.Color.blurple(),
     title=f"{weather_data.name}, {weather_data.country}"
   )
 
@@ -97,7 +97,7 @@ def create_error_embed(title: str, description: str):
   '''
   # Create the embed with the error message
   embed: Embed = Embed(
-    color=0xe74c3c,
+    color=discord.Color.red(),
     title=title,
     description=description
   )
