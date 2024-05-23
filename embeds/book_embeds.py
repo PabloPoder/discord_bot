@@ -8,7 +8,7 @@ from discord import Embed
 from const import MOTIVATIONAL_QUOTES
 from services.books import Book
 
-def get_random_color():
+def get_random_color() -> int:
   '''Get a random color for the embed
 
   return: `int`
@@ -16,7 +16,7 @@ def get_random_color():
   '''
   return random.randint(0, 0xFFFFFF)
 
-def create_book_embed(book: Book):
+def create_book_embed(book: Book) -> Embed:
   '''Create an embed with the book's information
 
   Parameters
@@ -45,7 +45,7 @@ def create_book_embed(book: Book):
 
   return embed
 
-def create_base_book_embed():
+def create_base_book_embed() -> Embed:
   '''Create a base embed with the book's template
 
   return: :class:`Embed`

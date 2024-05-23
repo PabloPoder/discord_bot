@@ -27,3 +27,5 @@ GOOGLE_BOOKS_ENDPOINT = os.getenv('GOOGLE_BOOKS_ENDPOINT')
 # Spotify API
 SPOTIFY_CLIENT_ID = os.getenv('SPOTIFY_CLIENT_ID')
 SPOTIFY_CLIENT_SECRET = os.getenv('SPOTIFY_CLIENT_SECRET')
+# Discord id of the user who is authorized to use the Spotify commands
+YOUR_USER_ID = os.getenv('YOUR_USER_ID')

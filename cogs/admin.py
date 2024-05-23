@@ -29,13 +29,10 @@ class Admin(commands.Cog):
     amount : `int`, optional
         The amount of messages to clear.
     '''
-    # Defer the response to prevent timeout
     await interaction.response.defer()
 
-    # Delete the messages
     await interaction.channel.purge(limit=amount)
 
-    # Send the message with the amount of messages deleted
     await interaction.followup.send(f"{amount} messages were deleted!", ephemeral=True)
 
 

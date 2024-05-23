@@ -42,13 +42,10 @@ class Utilities(commands.Cog):
     '''
     await interaction.response.defer()
 
-    # Search the gif to display
     file = discord.File("images/blade-runner-rachael1.gif", filename="blade-runner-rachael1.gif")
 
-    # Create the embed with the commands
     embed = create_commands_embed(image = self.bot.user.display_avatar)
 
-    # Send the embed
     await interaction.followup.send(
       file=file,
       embed=embed
@@ -65,13 +62,10 @@ class Utilities(commands.Cog):
     '''
     Displays the avatar of an user.
     '''
-    # Defer the response to prevent timeout
     await interaction.response.defer()
 
-    # Create the embed with the user's information
     embed = create_avatar_embed(user=user)
 
-    # Send the message with the embed
     await interaction.followup.send(embed=embed)
   # endregion
 
@@ -85,12 +79,10 @@ class Utilities(commands.Cog):
     '''
     Gives you the guide to make Origins EE
     '''
-    # Defer the response to prevent timeout
     await interaction.response.defer()
 
     embed = create_eeorigins_embed()
 
-    # Send the message with the embed
     await interaction.followup.send(embed=embed)
   # endregion
 
@@ -108,13 +100,10 @@ class Utilities(commands.Cog):
     city: 'str'
         The name of the city to get the weather data from.
     '''
-    # Defer the response to prevent timeout
     await interaction.response.defer()
 
-    # Get the weather data from the city
     weather_data = await get_weather_data(city)
 
-    # Check if the weather data was fetched
     if weather_data is None:
       embed = create_error_embed(
         title="Error 🤖",
@@ -123,10 +112,8 @@ class Utilities(commands.Cog):
       await interaction.followup.send(embed=embed)
       return
 
-    # Create the embed with the weather data
     embed = create_weather_embed(weather_data=weather_data)
 
-    # Send the message with the embed
     await interaction.followup.send(embed=embed)
   # endregion
 
@@ -142,15 +129,11 @@ class Utilities(commands.Cog):
     nametag: str
         The name of the player to get the stats from.
     '''
-    # Defer the response to prevent timeout
     await interaction.response.defer()
 
-    # Get the player's stats 
     player = await get_rocket_league_stats_data(nametag=nametag)
 
-    # Check if the player exists
     if player is None:
-      # Create the error embed
       embed = create_error_embed(
         title="That player doesn't exist! 👻",
         description=f"Player with nametag {nametag} not found."
@@ -158,14 +141,11 @@ class Utilities(commands.Cog):
       await interaction.followup.send(embed=embed)
       return
 
-    # Create the view with the playlist
     view = discord.ui.View()
     view.add_item(RLPlaylistsDropdown(playlists=player.playlists, player=player))
 
-    # Create the embed with the player's stats
     embed = create_base_rl_embed(player=player)
 
-    # Send the message with the embed
     await interaction.followup.send(view=view, embed=embed)
   # endregion
 
@@ -183,13 +163,10 @@ class Utilities(commands.Cog):
     query: str
       The text to search for in the books.
     """
-    # Defer the response to prevent timeout
     await interaction.response.defer()
 
-    # Get the books from the query text
     books = await get_books(query)
 
-    # Check if books were found
     if not books:
       embed = create_error_embed(
         title="No Books Found 📚",
@@ -198,14 +175,11 @@ class Utilities(commands.Cog):
       await interaction.followup.send(embed=embed)
       return
 
-    # Create the view with the books
     view = discord.ui.View()
     view.add_item(BooksDropdown(books=books))
 
-    # Create the base embed with the book's template
     embed = create_base_book_embed()
 
-    # Send the message with the view and the embed
     await interaction.followup.send(view=view, embed=embed)
   # endregion
 

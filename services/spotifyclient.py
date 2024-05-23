@@ -7,11 +7,11 @@ from spotipy import Spotify
 from spotipy.oauth2 import SpotifyOAuth
 
 from apikeys import SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET
-from classes.track import Track
+from classes.spotify import Track, Playlist
 from const import SPOTIFY_REDIRECT_URI, SPOTIFY_SCOPE
 
 
-class SpotifyAdmin:
+class SpotifyClient:
   '''
   A class used to interact with the Spotify API.
   '''
@@ -76,20 +76,14 @@ class SpotifyAdmin:
     if not self.sp:
       return None
 
+    self.top_tracks = []
+
     try:
       tracks = self.sp.current_user_top_tracks(limit=limit)["items"]
 
       for track in tracks:
-        self.top_tracks.append(
-          Track(
-            track_id=track['id'],
-            name=track['name'],
-            artists=track['artists'],
-            album=track['album']['name'],
-            images=track['album']['images'][0],
-            uri=track['external_urls']['spotify']
-          )
-        )
+        temp_track = Track.from_dict(data = track)
+        self.top_tracks.append(temp_track)
 
     except spotipy.SpotifyException as e:
       print(f"Failed to get top tracks: {e}")
@@ -149,16 +143,8 @@ class SpotifyAdmin:
 
       # Convert the recommendations to Track objects
       for track in new_recommendations:
-        self.recommendations.append(
-          Track(
-            track_id=track['id'],
-            name=track['name'],
-            artists=track['artists'],
-            album=track['album']['name'],
-            images=track['album']['images'][0],
-            uri=track['external_urls']['spotify']
-          )
-        )
+        temp_track = Track.from_dict(data = track)
+        self.recommendations.append(temp_track)
 
     except spotipy.SpotifyException as e:
       print(f"Failed to get recommendations: {e}")
@@ -232,7 +218,7 @@ class SpotifyAdmin:
     tracks: `list`
       The list of tracks to add to the playlist.
     '''
-    track_ids = [track["id"] for track in tracks if "id" in track]
+    track_ids = [track.track_id for track in tracks]
 
     try:
       self.sp.playlist_add_items(playlist_id, track_ids)
@@ -273,29 +259,14 @@ class SpotifyAdmin:
       return None
 
     try:
-      playlist_urls = [
-        item['external_urls']['spotify'] for item in
+      playlists:List[Playlist] = [
+        Playlist.from_dict(item) for item in
         self.sp.current_user_playlists(limit=limit)['items']
       ]
       # return self.sp.current_user_playlists(limit=limit)['items']
-      return playlist_urls
+      return playlists
+
     except spotipy.SpotifyException as e:
       print(f"Failed to get playlists: {e}")
       return []
   # endregion
-
-# region testing
-
-# Create an instance of the SpotifyClass
-spotify = SpotifyAdmin()
-
-print("Top tracks:")
-top_tracks = spotify.get_user_top_tracks()
-
-print("Recommendations:")
-recommendations = spotify.get_recommendations()
-
-for tr in recommendations:
-  print(tr)
-
-# endregion

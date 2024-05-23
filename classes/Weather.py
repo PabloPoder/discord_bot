@@ -18,7 +18,7 @@ class WeatherData:
     self.clouds = clouds
 
   @classmethod
-  def from_dict(cls, data):
+  def from_dict(cls, data: dict):
     ''' Construct a new instance from a dictionary
     
     Parameters

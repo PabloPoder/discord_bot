@@ -6,7 +6,7 @@ from const import NOOBIES, RL_RANK_COLORS, UNRANKED_ICON
 from services.rocket_league import Playlist, RocketLeaguePlayer
 
 
-def create_base_rl_embed(player: RocketLeaguePlayer):
+def create_base_rl_embed(player: RocketLeaguePlayer) -> Embed:
   ''' Create the base embed for the player's Rocket League stats
 
   Parameters
