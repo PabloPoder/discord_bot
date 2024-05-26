@@ -21,7 +21,6 @@ Feel free to explore and use these commands to enhance your Discord server!
 - Libraries used: discord.py
 
 ## Installation 🛠
-️
 1. Clone the repository:
 ```bash 
 git clone
