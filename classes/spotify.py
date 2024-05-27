@@ -4,11 +4,55 @@ This file contains the Track class, which is used to represent a track of Spotif
 
 from typing import List
 
+class SpotifyUser:
+  ''' 
+  A class used to represent a user of Spotify.
+  '''
+  def __init__(self,
+    user_id:str,
+    display_name:str,
+    images:str,
+    url:str,
+    followers:int
+  ):
+    self.user_id = user_id
+    self.display_name = display_name
+    self.images = images
+    self.url = url
+    self.followers = followers
+
+  def __str__(self):
+    return f"{self.display_name} - {self.followers} followers ({self.url})"
+
+  @classmethod
+  def from_dict(cls, data:dict):
+    '''
+    Create a User object from a dictionary.
+    
+    Parameters:
+    ----------
+    data : dict
+      The dictionary with the user data.
+
+    Returns:
+    -------
+    `User`
+      The User object created from the dictionary.
+    '''
+    return cls(
+      user_id=data.get('id', ""),
+      display_name=data.get('display_name', ""),
+      images=data.get('images', [{}])[0].get('url', ""), # get the first image
+      url=data.get('external_urls', {}).get('spotify', ""),
+      followers=data.get('followers', {}).get('total', 0)
+    )
+
 class Track:
   '''
   A class used to represent a track of Spotify.
   '''
-  def __init__(self,
+  def __init__(
+    self,
     track_id:str,
     name:str,
     artists:List[str],
@@ -66,19 +110,22 @@ class Playlist:
     name:str,
     description:str,
     images:str,
-    uri:str
+    uri:str,
+    owner: SpotifyUser
+
   ):
     self.playlist_id = playlist_id
     self.name = name
     self.description = description
     self.images = images
     self.uri = uri
+    self.owner = owner
 
   def __str__(self):
-    return f"{self.name} - {self.description} ({self.uri})"
+    return f"{self.name} - {self.description} - {self.owner} ({self.uri})"
 
   @classmethod
-  def from_dict(cls, data:dict):
+  def from_dict(cls, data:dict, owner:SpotifyUser):
     '''
     Create a Playlist object from a dictionary.
     
@@ -97,5 +144,6 @@ class Playlist:
       name=data.get('name', ""),
       description=data.get('description', ""),
       images=data.get('images', [{}])[0].get('url', ""), # get the first image
-      uri=data.get('external_urls', {}).get('spotify', "")
+      uri=data.get('external_urls', {}).get('spotify', ""),
+      owner=owner
     )

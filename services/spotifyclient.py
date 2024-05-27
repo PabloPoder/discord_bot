@@ -5,9 +5,10 @@ from typing import List
 import spotipy
 from spotipy import Spotify
 from spotipy.oauth2 import SpotifyOAuth
+from spotipy import SpotifyException
 
 from apikeys import SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET
-from classes.spotify import Track, Playlist
+from classes.spotify import SpotifyUser, Track, Playlist
 from const import SPOTIFY_REDIRECT_URI, SPOTIFY_SCOPE
 
 
@@ -252,21 +253,76 @@ class SpotifyClient:
 
     Returns:
     -------
-    `list`
+    `list` or `[]`
       The user's playlists.
     '''
     if not self.sp:
       return None
 
     try:
+      owner = SpotifyUser.from_dict(self.sp.me())
+
       playlists:List[Playlist] = [
-        Playlist.from_dict(item) for item in
+        Playlist.from_dict(item, owner) for item in
         self.sp.current_user_playlists(limit=limit)['items']
       ]
-      # return self.sp.current_user_playlists(limit=limit)['items']
       return playlists
 
     except spotipy.SpotifyException as e:
       print(f"Failed to get playlists: {e}")
       return []
+  # endregion
+
+  # region get_playlist_from_user_id
+  def get_playlist_from_user_id(self, user_id: str, limit: int = 5) -> list:
+    '''
+    Get the user's playlists. This method can raise a SpotifyException.
+
+    Parameters:
+    ----------
+    user_id: `str`
+      The id of the user.
+    limit: `int`
+      The number of playlists to get. Default is 5.
+
+    Returns:
+    -------
+    `list` or `[]`
+      The user's playlists.
+    '''
+    try:
+      owner = SpotifyUser.from_dict(self.sp.user(user_id))
+
+      playlists:List[Playlist] = [
+        Playlist.from_dict(item, owner) for item in
+        self.sp.user_playlists(user_id,limit)['items']
+      ]
+      return playlists
+    except SpotifyException as e:
+      print (f"Failed to get playlists: {e}")
+      return []
+
+  # endregion
+
+  # region get_users_profile
+  def get_users_profile(self, user_id: str) -> dict:
+    '''
+    Get the user's profile.
+
+    Parameters:
+    ----------
+    user_id: `str`
+      The id of the user.
+
+    Returns:
+    -------
+    `SpotifyUser` or `None`
+      The user's profile.
+    '''
+    try:
+      user = SpotifyUser.from_dict(self.sp.user(user_id))
+      return user
+    except spotipy.SpotifyException as e:
+      print(f"Failed to get user's profile: {e}")
+      return None
   # endregion

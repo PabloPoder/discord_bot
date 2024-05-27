@@ -63,6 +63,7 @@ def create_playlists_embed(playlists:List[Playlist]) -> Embed:
     color=discord.Color.blurple()
   )
 
+  embed.set_author(name=playlists[0].owner.display_name, icon_url=playlists[0].owner.images)
   embed.set_thumbnail(url=playlists[0].images)
 
   embed.set_footer(text="Powered by Spotify", icon_url=SPOTIFY_LOGO)

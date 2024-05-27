@@ -6,7 +6,11 @@ from discord.ext import commands
 from discord import Interaction
 
 from apikeys import TEST_SERVER_ID, YOUR_USER_ID
-from embeds.spotify_embeds import create_playlist_created_embed, create_playlists_embed, create_tracks_embed
+from embeds.spotify_embeds import (
+  create_playlist_created_embed,
+  create_playlists_embed,
+  create_tracks_embed
+)
 from services.spotifyclient import SpotifyClient
 
 # region is_authorized_user
@@ -56,7 +60,7 @@ class Spotify(commands.Cog):
     top_tracks = self.spotify_client.get_user_top_tracks(limit)
 
     if not top_tracks:
-      await interaction.followup.send("No top tracks found.")
+      await interaction.followup.send("No top tracks found.", ephemeral=True)
       return
 
     embed = create_tracks_embed(top_tracks)
@@ -85,7 +89,7 @@ class Spotify(commands.Cog):
     recommendations = self.spotify_client.get_recommendations(limit)
 
     if not recommendations:
-      await interaction.followup.send("No recommendations found.")
+      await interaction.followup.send("No recommendations found.", ephemeral=True)
       return
 
     embed = create_tracks_embed(recommendations, is_recommendation=True)
@@ -95,11 +99,11 @@ class Spotify(commands.Cog):
 
   # region playlists
   @discord.slash_command(
-    name="playlists",
+    name="myplaylists",
     description="Displays the admin user's playlists.",
     guild_ids=TEST_SERVER_ID
   )
-  async def playlists(self, interaction: Interaction, limit:int = 5):
+  async def myplaylists(self, interaction: Interaction, limit:int = 5):
     '''
     Display the admin user's playlists.
 
@@ -114,6 +118,34 @@ class Spotify(commands.Cog):
 
     if not playlists:
       await interaction.followup.send("No playlists found.")
+      return
+
+    embed = create_playlists_embed(playlists)
+
+    await interaction.followup.send(embed=embed)
+
+  @discord.slash_command(
+    name="playlists",
+    description="Displays the playlists of the user.",
+    guild_ids=TEST_SERVER_ID
+  )
+  async def playlists(self, interaction: Interaction, user:str, limit:int = 5):
+    '''
+    Display the playlists of the user.
+
+    Parameters:
+    -----------
+    user: `str`
+      The user to get the playlists from.
+    limit: `int`
+      The number of playlists to get. Default is 5.
+    '''
+    await interaction.response.defer()
+
+    playlists = self.spotify_client.get_playlist_from_user_id(user, limit)
+
+    if not playlists:
+      await interaction.followup.send("No playlists found.", ephemeral=True)
       return
 
     embed = create_playlists_embed(playlists)
@@ -154,7 +186,7 @@ class Spotify(commands.Cog):
     )
 
     if not playlist_url:
-      await interaction.followup.send("Failed to create playlist.")
+      await interaction.followup.send("Failed to create playlist.", ephemeral=True)
       return
 
     await interaction.followup.send(embed=embed)
@@ -163,6 +195,6 @@ class Spotify(commands.Cog):
 
 def setup(bot):
   '''
-  Add the Spotify cog to the bot.
+    the Spotify cog to the bot.
   '''
   bot.add_cog(Spotify(bot))
