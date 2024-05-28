@@ -57,5 +57,5 @@ YT_DL_OPTIONS = {"format": "bestaudio/best"}
 # region spotify
 SPOTIFY_LOGO = "https://cdn.iconscout.com/icon/free/png-256/spotify-11-432546.png"
 SPOTIFY_SCOPE = "user-top-read user-library-read playlist-modify-public playlist-modify-private"
-SPOTIFY_REDIRECT_URI = "http://localhost:8888/"
+SPOTIFY_REDIRECT_URI = "http://localhost:8888"
 # endregion

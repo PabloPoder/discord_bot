@@ -1,55 +1,17 @@
 # Python
 __pycache__/
 *.pyc
-*.py[cod]
-*.pyd
-*.pyo
-*.pyz
-*.pickle
-*.egg
-*.egg-info/
-dist/
-build/
-*.so
 
 # Environments
 .env
 .venv/
-env/
-venv/
-ENV/
 
 # IDEs
 .vscode/
-.idea/
-*.swp
-*.swo
-*.swn
-*.bak
-
-# OS
-.DS_Store
-Thumbs.db
+.pylintrc
 
 # Logs and databases
 *.log
-*.sql
-*.sqlite
 
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.nox/
-.coverage
-.coverage.*
+# Spotify
 .cache
-nosetests.xml
-coverage.xml
-*.cover
-*.py,cover
-.hypothesis/
-.pytest_cache/
-
-
-# Discord
-debug.log

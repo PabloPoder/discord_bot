@@ -4,7 +4,7 @@ Rocket League player data from the Rocket League API.
 '''
 import aiohttp
 
-from apikeys import ROCKET_LEAGUE_ENDPOINT
+from utils.apikeys import ROCKET_LEAGUE_ENDPOINT
 from classes.rocket_league import Playlist, RocketLeaguePlayer
 
 async def fetch_player_data(nametag:str):

@@ -4,10 +4,10 @@ This file contains the functions to get the books from the Google Books API.
 from typing import List
 import logging
 import aiohttp
+from utils.logger_config import logger
+from utils.apikeys import GOOGLE_BOOKS_ENDPOINT
 
-from apikeys import GOOGLE_BOOKS_ENDPOINT
-
-from classes.book import Book
+from classes.Book import Book
 
 # region get_books - get books from google books api
 async def fetch_books(query:str):
@@ -19,7 +19,7 @@ async def fetch_books(query:str):
   ----------
   query: `str`
       The query string to search for the books.
-
+  
   return: `dict` or `None`
   '''
   try:
@@ -28,8 +28,8 @@ async def fetch_books(query:str):
         response.raise_for_status()
         return await response.json()
   except aiohttp.ClientError as err:
-    print("An error occurred while fetching the book data:")
-    print(f"Book: {query}, Error: {err}")
+    # logger.exception("An error occurred while fetching the book data:")
+    logger.error(f"Book: {query}, Error: {err}")
     return None
 
 async def get_books(query: str):
@@ -43,6 +43,8 @@ async def get_books(query: str):
   
   return: `List[Book]` or `None`
   '''
+  # Log the query
+  logger.info("Get books from Google Books API with query: %s", query)
 
   # Get the books from the Google Books API
   data = await fetch_books(query)
@@ -67,5 +69,6 @@ async def get_books(query: str):
     temp_book = Book.from_dict(item, volume_info)
     books.append(temp_book)
 
+  logger.info("Books found: %s", books)
   return books
 # endregion

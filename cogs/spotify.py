@@ -5,7 +5,7 @@ import discord
 from discord.ext import commands
 from discord import Interaction
 
-from apikeys import TEST_SERVER_ID, YOUR_USER_ID
+from utils.apikeys import TEST_SERVER_ID, YOUR_USER_ID
 from embeds.spotify_embeds import (
   create_playlist_created_embed,
   create_playlists_embed,

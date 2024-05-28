@@ -5,7 +5,7 @@ import random
 import discord
 from discord import Embed
 
-from const import MOTIVATIONAL_QUOTES
+from utils.const import MOTIVATIONAL_QUOTES
 from services.books import Book
 
 def get_random_color() -> int:

@@ -3,9 +3,9 @@ This module contains the functions to get the weather data from the OpenWeatherM
 '''
 import aiohttp
 
-from classes.weather import WeatherData
+from classes.Weather import WeatherData
 
-from apikeys import WEATHER_ENDPOINT, WEATHER_TOKEN
+from utils.apikeys import WEATHER_ENDPOINT, WEATHER_TOKEN
 
 async def get_weather_data(city:str):
   '''Get the weather data from the OpenWeatherMap API

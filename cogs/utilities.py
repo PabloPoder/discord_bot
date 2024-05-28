@@ -7,7 +7,7 @@ import discord
 from discord.ext import commands
 from discord import Interaction
 
-from apikeys import TEST_SERVER_ID
+from utils.apikeys import TEST_SERVER_ID
 from embeds.common_embeds import (
   create_avatar_embed,
   create_commands_embed,

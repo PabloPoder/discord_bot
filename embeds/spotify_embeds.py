@@ -7,7 +7,7 @@ import discord
 from discord import Embed
 
 from classes.spotify import Playlist, Track
-from const import SPOTIFY_LOGO
+from utils.const import SPOTIFY_LOGO
 
 def create_tracks_embed(top_tracks:List[Track], is_recommendation: bool = False) -> Embed:
   '''Create an embed with the user's top tracks

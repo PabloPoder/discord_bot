@@ -6,10 +6,11 @@ import spotipy
 from spotipy import Spotify
 from spotipy.oauth2 import SpotifyOAuth
 from spotipy import SpotifyException
+from utils.logger_config import logger
 
-from apikeys import SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET
+from utils.apikeys import SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET
 from classes.spotify import SpotifyUser, Track, Playlist
-from const import SPOTIFY_REDIRECT_URI, SPOTIFY_SCOPE
+from utils.const import SPOTIFY_REDIRECT_URI, SPOTIFY_SCOPE
 
 
 class SpotifyClient:
@@ -47,6 +48,9 @@ class SpotifyClient:
       redirect_uri=SPOTIFY_REDIRECT_URI,
       scope=SPOTIFY_SCOPE,
     )
+
+    
+    logger.debug(f"OAuth: {oauth.get_authorize_url()}")
 
     if oauth.is_token_expired(oauth.get_cached_token()):
       oauth.refresh_access_token(oauth.get_cached_token()['refresh_token'])

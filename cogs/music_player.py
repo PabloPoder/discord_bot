@@ -11,7 +11,7 @@ from discord import Interaction
 
 from services.music_player import ffmpeg_options, download_song, play_next
 
-from apikeys import TEST_SERVER_ID
+from utils.apikeys import TEST_SERVER_ID
 
 class MusicPlayer(commands.Cog):
   '''

@@ -5,7 +5,7 @@ import discord
 from discord.ext import commands
 from discord import Interaction
 
-from apikeys import TEST_SERVER_ID
+from utils.apikeys import TEST_SERVER_ID
 
 
 class Admin(commands.Cog):

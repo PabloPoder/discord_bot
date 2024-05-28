@@ -2,7 +2,7 @@
 This module contains the functions to create the embeds for the the Rocket League commands.
 '''
 from discord import Embed
-from const import NOOBIES, RL_RANK_COLORS, UNRANKED_ICON
+from utils.const import NOOBIES, RL_RANK_COLORS, UNRANKED_ICON
 from services.rocket_league import Playlist, RocketLeaguePlayer
 
 

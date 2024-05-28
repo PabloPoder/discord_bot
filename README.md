@@ -1,6 +1,8 @@
+# Discord bot
+
 ## Description 📄
 
-This project is a Discord bot that performs various commands and functionalities. It is designed to enhance the user experience and provide useful features within a Discord server.
+- This project is a Discord bot that performs various commands and functionalities. It is designed to enhance the user experience and provide useful features within a Discord server.
 
 ## Features ⚡
 
