@@ -9,6 +9,7 @@ from discord import Embed
 from classes.spotify import Playlist, Track
 from utils.const import SPOTIFY_LOGO
 
+# region create_tracks_embed
 def create_tracks_embed(top_tracks:List[Track], is_recommendation: bool = False) -> Embed:
   '''Create an embed with the user's top tracks
 
@@ -43,7 +44,9 @@ def create_tracks_embed(top_tracks:List[Track], is_recommendation: bool = False)
     )
 
   return embed
+# endregion
 
+# region create_playlists_embed
 def create_playlists_embed(playlists:List[Playlist]) -> Embed:
   '''Create an embed with the user's playlists
 
@@ -76,7 +79,9 @@ def create_playlists_embed(playlists:List[Playlist]) -> Embed:
     )
 
   return embed
+# endregion
 
+# region create_playlist_created_embed
 def create_playlist_created_embed(playlist_url:str, name:str, description:str) -> Embed:
   '''Create an embed with the created playlist
 
@@ -110,3 +115,4 @@ def create_playlist_created_embed(playlist_url:str, name:str, description:str) -
   )
 
   return embed
+# endregion

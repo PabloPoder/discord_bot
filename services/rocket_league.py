@@ -7,6 +7,8 @@ import aiohttp
 from utils.apikeys import ROCKET_LEAGUE_ENDPOINT
 from classes.rocket_league import Playlist, RocketLeaguePlayer
 
+from utils.logger_config import logger
+
 async def fetch_player_data(nametag:str):
   ''' Fetch the player data from the Rocket League API
 
@@ -33,6 +35,7 @@ async def fetch_player_data(nametag:str):
         response.raise_for_status()
         return await response.json()
   except aiohttp.ClientError as err:
+    logger.error(f"An error occurred while fetching the player data: {err}")
     print("An error occurred while fetching the player data:")
     print(f"Player: {nametag}, Error: {err}")
   return None

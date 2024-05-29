@@ -91,9 +91,10 @@ class SpotifyClient:
         self.top_tracks.append(temp_track)
 
     except spotipy.SpotifyException as e:
-      print(f"Failed to get top tracks: {e}")
+      logger.error(f"Failed to get top tracks: {e}")
       self.top_tracks = []
 
+    logger.info(f"Top tracks: {self.top_tracks}")
     return self.top_tracks
   # endregion
 
@@ -120,6 +121,7 @@ class SpotifyClient:
       try:
         self.top_tracks = self.get_user_top_tracks()
       except spotipy.SpotifyException as e:
+        logger.error(f"Failed to get top tracks: {e}")
         print(f"Failed to get top tracks: {e}")
         self.top_tracks = []
 
@@ -130,6 +132,7 @@ class SpotifyClient:
       seed_genres = self.sp.artist(self.top_tracks[0].artists[0]['id'])['genres']
 
     except spotipy.SpotifyException as e:
+      logger.error(f"Failed to get seed genres: {e}")
       print(f"Failed to get seed genres: {e}")
       seed_genres = []
 
@@ -152,6 +155,7 @@ class SpotifyClient:
         self.recommendations.append(temp_track)
 
     except spotipy.SpotifyException as e:
+      logger.error(f"Failed to get recommendations: {e}")
       print(f"Failed to get recommendations: {e}")
       self.recommendations = []
 
@@ -191,6 +195,7 @@ class SpotifyClient:
         public=True
       )['id']
     except spotipy.SpotifyException as e:
+      logger.error(f"Failed to create playlist: {e}")
       print(f"Failed to create playlist: {e}")
       return None
 
@@ -199,6 +204,7 @@ class SpotifyClient:
       try:
         self.get_recommendations()
       except spotipy.SpotifyException as e:
+        logger.error("Error getting recommendations: {e}")
         print(f"Failed to get recommendations: {e}")
         self.recommendations = []
 
@@ -207,6 +213,7 @@ class SpotifyClient:
       self.add_tracks_to_playlist(playlist_id, self.recommendations)
       self.add_tracks_to_playlist(playlist_id, self.top_tracks)
     except spotipy.SpotifyException as e:
+      logger.error(f"Failed to add tracks to playlist: {e}")
       print(f"Failed to add tracks to playlist: {e}")
 
     return self.sp.playlist(playlist_id=playlist_id)['external_urls']['spotify']
@@ -228,6 +235,7 @@ class SpotifyClient:
     try:
       self.sp.playlist_add_items(playlist_id, track_ids)
     except spotipy.SpotifyException as e:
+      logger.error(f"Failed to add tracks to playlist: {e}")
       print(f"Failed to add tracks to playlist: {e}")
   # endregion
 
@@ -273,6 +281,7 @@ class SpotifyClient:
       return playlists
 
     except spotipy.SpotifyException as e:
+      logger.error(f"Failed to get playlists: {e}")
       print(f"Failed to get playlists: {e}")
       return []
   # endregion
@@ -303,13 +312,14 @@ class SpotifyClient:
       ]
       return playlists
     except SpotifyException as e:
+      logger.error(f"Failed to create playlist: {e}")
       print (f"Failed to get playlists: {e}")
       return []
 
   # endregion
 
   # region get_users_profile
-  def get_users_profile(self, user_id: str) -> dict:
+  def get_users_profile(self, user_id: str) -> SpotifyUser:
     '''
     Get the user's profile.
 
@@ -327,6 +337,7 @@ class SpotifyClient:
       user = SpotifyUser.from_dict(self.sp.user(user_id))
       return user
     except spotipy.SpotifyException as e:
+      logger.error(f"Failed to get user's profile: {e}")
       print(f"Failed to get user's profile: {e}")
       return None
   # endregion

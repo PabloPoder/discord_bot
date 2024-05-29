@@ -13,7 +13,11 @@ from embeds.spotify_embeds import (
 )
 from services.spotifyclient import SpotifyClient
 
-# region is_authorized_user
+from utils.logger_config import logger
+
+from ui.spotify_pagination_view import SpotifyPaginationView
+
+# region is authorized user
 # this can be simplified by using the `commands.check` decorator directly
 # and passing the predicate function as an argument
 def is_authorized_user():
@@ -55,6 +59,7 @@ class Spotify(commands.Cog):
     limit: `int`
       The number of top tracks to get. Default is 5.
     '''
+    logger.info("Getting top tracks...")
     await interaction.response.defer()
 
     top_tracks = self.spotify_client.get_user_top_tracks(limit)
@@ -66,6 +71,7 @@ class Spotify(commands.Cog):
     embed = create_tracks_embed(top_tracks)
 
     await interaction.followup.send(embed=embed)
+    logger.info("Top tracks sent.")
   # endregion
 
   # region recommendations
@@ -84,6 +90,7 @@ class Spotify(commands.Cog):
     limit: `int`
       The number of recommendations to get. Default is 5.
     '''
+    logger.info("Getting recommendations...")
     await interaction.response.defer()
 
     recommendations = self.spotify_client.get_recommendations(limit)
@@ -92,12 +99,15 @@ class Spotify(commands.Cog):
       await interaction.followup.send("No recommendations found.", ephemeral=True)
       return
 
-    embed = create_tracks_embed(recommendations, is_recommendation=True)
+    # embed = create_tracks_embed(recommendations, is_recommendation=True)
+    spotify_pagination_view = SpotifyPaginationView(data=recommendations)
+    await spotify_pagination_view.send_view_and_embed(interaction)
 
-    await interaction.followup.send(embed=embed)
+    # await interaction.followup.send(view=spotify_pagination_view)
+    # await interaction.followup.send(embed=embed)
   # endregion
 
-  # region playlists
+  # region my_playlists
   @discord.slash_command(
     name="myplaylists",
     description="Displays the admin user's playlists.",
@@ -112,6 +122,7 @@ class Spotify(commands.Cog):
     limit: `int`
       The number of playlists to get. Default is 5.
     '''
+    logger.info("Getting my playlists...")
     await interaction.response.defer()
 
     playlists = self.spotify_client.get_current_user_playlists(limit)
@@ -123,7 +134,9 @@ class Spotify(commands.Cog):
     embed = create_playlists_embed(playlists)
 
     await interaction.followup.send(embed=embed)
+  # endregion
 
+  # region playlists
   @discord.slash_command(
     name="playlists",
     description="Displays the playlists of the user.",
@@ -140,6 +153,7 @@ class Spotify(commands.Cog):
     limit: `int`
       The number of playlists to get. Default is 5.
     '''
+    logger.info(f"Getting {user}'s playlists...")
     await interaction.response.defer()
 
     playlists = self.spotify_client.get_playlist_from_user_id(user, limit)
@@ -151,7 +165,9 @@ class Spotify(commands.Cog):
     embed = create_playlists_embed(playlists)
 
     await interaction.followup.send(embed=embed)
+  # endregion
 
+  # region create_playlists
   @discord.slash_command(
     name="createplaylist",
     description="Creates a playlist with the admin user's top tracks and recommendations. Needs admin verification.",
@@ -175,6 +191,7 @@ class Spotify(commands.Cog):
       The description of the playlist. Default is 
       "A playlist with recommended songs by Rachael Nexus-7".
     '''
+    logger.info("Creating playlist...")
     await interaction.response.defer()
 
     playlist_url = self.spotify_client.create_playlist()

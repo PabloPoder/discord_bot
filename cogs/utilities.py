@@ -23,6 +23,8 @@ from services.weather import get_weather_data
 from ui.books_dropdown import BooksDropdown
 from ui.rocketleague_playlists_dropdown import RLPlaylistsDropdown
 
+from utils.logger_config import logger
+
 class Utilities(commands.Cog):
   '''
   A class used to represent the utilities cog.
@@ -51,6 +53,25 @@ class Utilities(commands.Cog):
       embed=embed
     )
   # endregion
+
+  # region ping
+  @discord.slash_command(
+    name="ping",
+    description="Check if the bot is online",
+    guild_ids=TEST_SERVER_ID,
+  )
+  async def ping(self, interaction: Interaction):
+    '''
+    This function is called when the user sends the `/ping` command.
+    It sends a message to the user with the latency of the bot.
+    '''
+    logger.info(f"Received ping request from {interaction.user.name}")
+    latency = f"{round(self.bot.latency *1000)}ms"
+    
+    await interaction.send(f"Pong! {latency}")
+    logger.info(f"Sent pong request from {interaction.user.name} with latency {latency}")
+  # endregion
+
 
   # region avatar
   @discord.slash_command(

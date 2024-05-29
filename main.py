@@ -6,14 +6,15 @@ import os
 
 import discord
 from discord.ext import commands
+
+from utils.apikeys import BOT_TOKEN
 from utils.logger_config import logger
 
-from utils.apikeys import BOT_TOKEN, TEST_SERVER_ID
 
 intents = discord.Intents.all()
 
 # bot = commands.Bot(command_prefix='/', intents=intents)
-bot = commands.Bot(command_prefix='/', intents=intents)
+bot = commands.Bot(intents=intents)
 
 # region on_ready event
 @bot.event
@@ -33,18 +34,6 @@ async def on_ready():
 # endregion
 
 
-bot.slash_command(
-  name="ping",
-  description="Check if the bot is online",
-  guild_ids=[TEST_SERVER_ID],
-)
-async def ping(interaction= discord.Interaction):
-  '''
-  This function is called when the user sends the `/ping` command.
-  It sends a message to the user with the latency of the bot.
-  '''
-  await interaction.send(f"Pong! {round(bot.latency * 1000)}ms")
-
 # region load_extensions
 def load_extensions():
   ''' 
@@ -62,9 +51,12 @@ def load_extensions():
 
   if __name__ == "__main__":
     for extension in initial_extensions:
-      bot.load_extension(extension) 
+      try:
+        bot.load_extension(extension) 
+        logger.info(f"Loaded extension: {extension}")
+      except Exception as e:
+        logger.error(f"Failed to load extension {extension}. Error: {e}")
 # endregion
-
 
 load_extensions()
 bot.run(BOT_TOKEN)
