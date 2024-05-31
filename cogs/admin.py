@@ -15,6 +15,7 @@ class Admin(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
 
+  # TODO: Fix the clear command - can't 'followup.send' because the interaction is deleted
   # region clear messages only administrator
   @discord.slash_command(
     name="clear",

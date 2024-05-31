@@ -122,7 +122,7 @@ class Playlist:
     self.owner = owner
 
   def __str__(self):
-    return f"{self.name} - {self.description} - {self.owner} ({self.uri})"
+    return f"PlaylistId: {self.playlist_id}, Name: {self.name}, Description: {self.description}, Owner: {self.owner}, URI: {self.uri}, Images: {self.images}, URI: {self.uri}, Owner {self.owner}"
 
   @classmethod
   def from_dict(cls, data:dict, owner:SpotifyUser):

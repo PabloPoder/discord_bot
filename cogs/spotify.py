@@ -99,12 +99,9 @@ class Spotify(commands.Cog):
       await interaction.followup.send("No recommendations found.", ephemeral=True)
       return
 
-    # embed = create_tracks_embed(recommendations, is_recommendation=True)
     spotify_pagination_view = SpotifyPaginationView(data=recommendations)
     await spotify_pagination_view.send_view_and_embed(interaction)
 
-    # await interaction.followup.send(view=spotify_pagination_view)
-    # await interaction.followup.send(embed=embed)
   # endregion
 
   # region my_playlists

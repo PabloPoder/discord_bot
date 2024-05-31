@@ -1,8 +1,9 @@
 '''
 This file contains the methods interact with the Spotify API.
 '''
-from typing import List
 import spotipy
+
+from typing import List
 from spotipy import Spotify
 from spotipy.oauth2 import SpotifyOAuth
 from spotipy import SpotifyException
@@ -286,6 +287,7 @@ class SpotifyClient:
       return []
   # endregion
 
+  # TODO: Fix this method
   # region get_playlist_from_user_id
   def get_playlist_from_user_id(self, user_id: str, limit: int = 5) -> list:
     '''

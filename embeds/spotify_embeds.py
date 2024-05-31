@@ -10,7 +10,11 @@ from classes.spotify import Playlist, Track
 from utils.const import SPOTIFY_LOGO
 
 # region create_tracks_embed
-def create_tracks_embed(top_tracks:List[Track], is_recommendation: bool = False) -> Embed:
+def create_tracks_embed(
+    top_tracks:List[Track],
+    is_recommendation: bool = False,
+    title: str = None
+  ) -> Embed:
   '''Create an embed with the user's top tracks
 
   Parameters
@@ -25,8 +29,10 @@ def create_tracks_embed(top_tracks:List[Track], is_recommendation: bool = False)
   :class:`Embed`
       The embed with the user's top tracks.
   '''
+
+  {"Top Tracks" if not is_recommendation else "Recommendations"} if not title else title
   embed:Embed = Embed(
-    title= "Top Tracks" if not is_recommendation else "Recommendations",
+    title=title,
     description="Here are your top tracks!"
       if not is_recommendation else "Here are some recommendations for you!",
     color=discord.Color.blurple()
