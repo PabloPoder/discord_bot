@@ -29,7 +29,7 @@ def create_book_embed(book: Book) -> Embed:
   embed:Embed = Embed(
     color=discord.Color.blurple(),
     title=book.name,
-    description=book.description[:200] + "...",
+    description=book.description[:500] + "...",
     url=book.url,
   )
   embed.set_thumbnail(book.thumbnail)
@@ -40,7 +40,7 @@ def create_book_embed(book: Book) -> Embed:
   embed.add_field(name="⭐ Average Rating:", value=book.average_rating)
   embed.add_field(name="🗣️ Language:", value=book.language)
   embed.add_field(name="🗃️ Categories:", value=book.categories)
-  embed.add_field(name="📚 Publisher:", value=book.publisher)
+  embed.add_field(name="📚 Publisher:", value=book.publisher[:30]+"...")
   embed.set_footer(text="🧙‍♂️" + random.choice(MOTIVATIONAL_QUOTES))
 
   return embed

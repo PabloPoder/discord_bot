@@ -17,7 +17,12 @@ class BooksDropdown(Select):
   '''
   def __init__(self, books: List[Book] = None):
     self.books = books
-    options = [SelectOption(label=book.name, value=book.book_id) for book in self.books]
+    options = [
+      SelectOption(
+        label=book.name[:50],
+        value=book.book_id
+      ) for book in self.books
+      ]
 
     super().__init__(options=options, placeholder="Select a book to view its details...")
 

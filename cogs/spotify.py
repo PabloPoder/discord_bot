@@ -67,12 +67,16 @@ class Spotify(commands.Cog):
       logger.info("No top tracks found.")
       return
 
-    spotify_pagination_view = SpotifyPaginationView(
-      data=top_tracks,
-      is_recommendation=False
-    )
-    await spotify_pagination_view.send_view_and_embed(interaction)
-    logger.info("Top tracks sent.")
+    try:
+      spotify_pagination_view = SpotifyPaginationView(
+        data=top_tracks,
+        is_recommendation=False
+      )
+      await spotify_pagination_view.send_view_and_embed(interaction)
+      logger.info("Top tracks sent.")
+    except Exception as e:
+      await interaction.followup.send("Failed to get top tracks.", ephemeral=True)
+      logger.error(f"Error: {e}")
   # endregion
 
   # region recommendations
@@ -101,12 +105,16 @@ class Spotify(commands.Cog):
       logger.info("No recommendations found.")
       return
 
-    spotify_pagination_view = SpotifyPaginationView(
-      data=recommendations,
-      is_recommendation=True
-    )
-    await spotify_pagination_view.send_view_and_embed(interaction)
-    logger.info("Recommendations sent.")
+    try:
+      spotify_pagination_view = SpotifyPaginationView(
+        data=recommendations,
+        is_recommendation=True
+      )
+      await spotify_pagination_view.send_view_and_embed(interaction)
+      logger.info("Recommendations sent.")
+    except Exception as e:
+      await interaction.followup.send("Failed to get recommendations.", ephemeral=True)
+      logger.error(f"Error: {e}")
   # endregion
 
   # region my_playlists
@@ -133,12 +141,16 @@ class Spotify(commands.Cog):
       await interaction.followup.send("No playlists found.")
       return
     
-    spotify_pagination_view = SpotifyPaginationView(
-      data=playlists,
-      is_recommendation=None
-    ) 
-    await spotify_pagination_view.send_view_and_embed(interaction)
-    logger.info("My playlists sent.")
+    try:
+      spotify_pagination_view = SpotifyPaginationView(
+        data=playlists,
+        is_recommendation=None
+      ) 
+      await spotify_pagination_view.send_view_and_embed(interaction)
+      logger.info("My playlists sent.")
+    except Exception as e:
+      await interaction.followup.send("Failed to get playlists.", ephemeral=True)
+      logger.error(f"Error: {e}")
   # endregion
 
   # region playlists
@@ -166,7 +178,7 @@ class Spotify(commands.Cog):
     if not playlists:
       await interaction.followup.send("No playlists found.", ephemeral=True)
       return
-
+    
     embed = create_playlists_embed(playlists)
 
     await interaction.followup.send(embed=embed)

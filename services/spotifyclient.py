@@ -289,7 +289,6 @@ class SpotifyClient:
       return []
   # endregion
 
-  # TODO: Fix this method
   # region get_playlist_from_user_id
   def get_playlist_from_user_id(self, user_id: str, limit: int = 5) -> list:
     '''
@@ -309,7 +308,12 @@ class SpotifyClient:
     '''
     try:
       owner = SpotifyUser.from_dict(self.sp.user(user_id))
+    except SpotifyException as e:
+      logger.error(f"Failed to get user: {e}")
+      print(f"Failed to get user: {e}")
+      return []
 
+    try:
       playlists:List[Playlist] = [
         Playlist.from_dict(item, owner) for item in
         self.sp.user_playlists(user_id,limit)['items']

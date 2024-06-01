@@ -11,13 +11,13 @@ class SpotifyUser:
   def __init__(self,
     user_id:str,
     display_name:str,
-    images:str,
+    image:str,
     url:str,
     followers:int
   ):
     self.user_id = user_id
     self.display_name = display_name
-    self.images = images
+    self.image = image
     self.url = url
     self.followers = followers
 
@@ -39,10 +39,17 @@ class SpotifyUser:
     `User`
       The User object created from the dictionary.
     '''
+    # Check if there are images in the dictionary. If there are, get the first image
+    images_urls = data.get('images', [{}])
+    if images_urls:
+      image = images_urls[0].get('url', "")
+    else:
+      image = ""
+
     return cls(
       user_id=data.get('id', ""),
       display_name=data.get('display_name', ""),
-      images=data.get('images', [{}])[0].get('url', ""), # get the first image
+      image=image,
       url=data.get('external_urls', {}).get('spotify', ""),
       followers=data.get('followers', {}).get('total', 0)
     )
@@ -57,14 +64,14 @@ class Track:
     name:str,
     artists:List[str],
     album:str,
-    images:str,
+    image:str,
     uri:str
   ):
     self.track_id = track_id
     self.name = name
     self.artists = artists
     self.album = album
-    self.images = images
+    self.image = image
     self.uri = uri
 
   def __str__(self):
@@ -86,6 +93,13 @@ class Track:
     `Track`
       The Track object created from the dictionary.
     '''
+    # Check if there are images in the dictionary. If there are, get the first image
+    images_urls = data.get('images', [{}])
+    if images_urls:
+      image = images_urls[0].get('url', "")
+    else:
+      image = ""
+
     return cls(
       track_id=data.get('id', ""),
       name=data.get('name', ""),
@@ -97,7 +111,7 @@ class Track:
         } for artist in data['artists']
       ],
       album=data.get('album', {}).get('name', ""),
-      images=data.get('album', {}).get('images', [{}])[0].get('url', ""), # get the first image
+      image=image,
       uri=data.get('external_urls', {}).get('spotify', "")
     )
 
@@ -109,7 +123,7 @@ class Playlist:
     playlist_id:str,
     name:str,
     description:str,
-    images:str,
+    image:str,
     uri:str,
     owner: SpotifyUser
 
@@ -117,12 +131,12 @@ class Playlist:
     self.playlist_id = playlist_id
     self.name = name
     self.description = description
-    self.images = images
+    self.image = image
     self.uri = uri
     self.owner = owner
 
   def __str__(self):
-    return f"PlaylistId: {self.playlist_id}, Name: {self.name}, Description: {self.description}, Owner: {self.owner}, URI: {self.uri}, Images: {self.images}, URI: {self.uri}, Owner {self.owner}"
+    return f"PlaylistId: {self.playlist_id}, Name: {self.name}, Description: {self.description}, Owner: {self.owner}, URI: {self.uri}, Image: {self.image}, URI: {self.uri}, Owner {self.owner}"
 
   @classmethod
   def from_dict(cls, data:dict, owner:SpotifyUser):
@@ -139,11 +153,19 @@ class Playlist:
     `Playlist`
       The Playlist object created from the dictionary.
     '''
+    # Check if there are images in the dictionary
+    # If there are, get the first image
+    images_urls = data.get('images', [{}])
+    if images_urls:
+      image = images_urls[0].get('url', "")
+    else:
+      image = ""
+      
     return cls(
       playlist_id=data.get('id', ""),
       name=data.get('name', ""),
       description=data.get('description', ""),
-      images=data.get('images', [{}])[0].get('url', ""), # get the first image
+      image=image,
       uri=data.get('external_urls', {}).get('spotify', ""),
       owner=owner
     )

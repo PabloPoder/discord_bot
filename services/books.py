@@ -32,7 +32,6 @@ async def fetch_books(query:str):
     logger.error(f"Book: {query}, Error: {err}")
     return None
 
-# TODO: Check return with q: "el imperio final"
 async def get_books(query: str):
   '''Asynchronously get the books from the Google Books API from a query string
   This is an asynchronous function and should be called with 'await'.

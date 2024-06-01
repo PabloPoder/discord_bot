@@ -47,13 +47,13 @@ class Book():
     '''
     return cls(
       book_id=item.get("id", ""),
-      name=volume_info.get("title", ""),
+      name=volume_info.get("title", " - "),
       authors=volume_info.get("authors", " - "),
       published_date=volume_info.get("publishedDate", " -/-/- "),
       description=volume_info.get("description", " - "),
       page_count=volume_info.get("pageCount", 0),
       categories=volume_info.get("categories", []),
-      language=volume_info.get("language", ""),
+      language=volume_info.get("language", " - "),
       thumbnail=volume_info.get("imageLinks", {}).get("thumbnail", None),
       average_rating=volume_info.get("averageRating", 0),
       publisher=volume_info.get("publisher", " - "),

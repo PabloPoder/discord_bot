@@ -41,7 +41,7 @@ def create_tracks_embed(
     color=discord.Color.blurple()
   )
 
-  embed.set_thumbnail(url=tracks[0].images)
+  embed.set_thumbnail(url=tracks[0].image)
 
   embed.set_footer(text="Powered by Spotify", icon_url=SPOTIFY_LOGO)
 
@@ -83,15 +83,15 @@ def create_playlists_embed(
     color=discord.Color.blurple()
   )
 
-  embed.set_author(name=playlists[0].owner.display_name, icon_url=playlists[0].owner.images)
-  embed.set_thumbnail(url=playlists[0].images)
+  embed.set_author(name=playlists[0].owner.display_name, icon_url=playlists[0].owner.image)
+  embed.set_thumbnail(url=playlists[0].image)
 
   embed.set_footer(text="Powered by Spotify", icon_url=SPOTIFY_LOGO)
 
   for index, playlist in enumerate(playlists):
     embed.add_field(
       name=f"{index + 1}. {playlist.name}",
-      value=f"{playlist.description}\n[Listen on Spotify]({playlist.uri})",
+      value=f"{playlist.description[:30]}\n[Listen on Spotify]({playlist.uri})",
       inline=False
     )
 
@@ -127,7 +127,7 @@ def create_playlist_created_embed(playlist_url:str, name:str, description:str) -
 
   embed.add_field(
     name="Playlist's description",
-    value=description,
+    value=description[:30],
     inline=False
   )
 

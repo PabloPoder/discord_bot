@@ -134,11 +134,28 @@ def create_commands_embed(image: Asset):
   embed.add_field(
     name="`/rlrank`",
     value="Get the stats from a player of Rocket League",
-    inline=False
   )
   embed.add_field(
     name="`/books`",
     value="Search for books that contain this text",
+    inline=False
+  )
+  embed.add_field(
+    name="`/toptracks`",
+    value="Get the top tracks of the admin's spotify account",
+  )
+  embed.add_field(
+    name="`/recommendations`",
+    value="Get the recommendations base on the admin's spotify account",
+    inline=False
+  )
+  embed.add_field(
+    name="`/myplaylists`",
+    value="Get the playlists of the admin's spotify account",
+  )
+  embed.add_field(
+    name="`/commands`",
+    value="Displays this message",
     inline=False
   )
   embed.add_field(name="`Creator:`", value="@ZOMB_-Frank", inline=False)
