@@ -167,3 +167,21 @@ def create_commands_embed(image: Asset):
   )
 
   return embed
+
+def create_clear_embed(amount: int):
+  '''
+  Create an embed to show when the messages were cleared.
+
+  Returns
+  -------
+  :class:`Embed`
+    The embed with the message that the messages were cleared.
+  '''
+  embed = discord.Embed(
+    title="Messages Cleared",
+    description=f"{amount} messages were cleared successfully!",
+    color=discord.Color.red()
+  )
+
+  return embed
+

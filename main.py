@@ -53,7 +53,7 @@ def load_extensions():
     for extension in initial_extensions:
       try:
         bot.load_extension(extension) 
-        logger.info(f"Loaded extension: {extension}")
+        logger.debug(f"Loaded extension: {extension}")
       except Exception as e:
         logger.error(f"Failed to load extension {extension}. Error: {e}")
 # endregion
