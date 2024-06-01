@@ -12,9 +12,7 @@ from embeds.spotify_embeds import (
   create_tracks_embed
 )
 from services.spotifyclient import SpotifyClient
-
 from utils.logger_config import logger
-
 from ui.spotify_pagination_view import SpotifyPaginationView
 
 # region is authorized user
@@ -66,11 +64,14 @@ class Spotify(commands.Cog):
 
     if not top_tracks:
       await interaction.followup.send("No top tracks found.", ephemeral=True)
+      logger.info("No top tracks found.")
       return
 
-    embed = create_tracks_embed(top_tracks)
-
-    await interaction.followup.send(embed=embed)
+    spotify_pagination_view = SpotifyPaginationView(
+      data=top_tracks,
+      is_recommendation=False
+    )
+    await spotify_pagination_view.send_view_and_embed(interaction)
     logger.info("Top tracks sent.")
   # endregion
 
@@ -97,11 +98,15 @@ class Spotify(commands.Cog):
 
     if not recommendations:
       await interaction.followup.send("No recommendations found.", ephemeral=True)
+      logger.info("No recommendations found.")
       return
 
-    spotify_pagination_view = SpotifyPaginationView(data=recommendations)
+    spotify_pagination_view = SpotifyPaginationView(
+      data=recommendations,
+      is_recommendation=True
+    )
     await spotify_pagination_view.send_view_and_embed(interaction)
-
+    logger.info("Recommendations sent.")
   # endregion
 
   # region my_playlists
@@ -127,10 +132,13 @@ class Spotify(commands.Cog):
     if not playlists:
       await interaction.followup.send("No playlists found.")
       return
-
-    embed = create_playlists_embed(playlists)
-
-    await interaction.followup.send(embed=embed)
+    
+    spotify_pagination_view = SpotifyPaginationView(
+      data=playlists,
+      is_recommendation=None
+    ) 
+    await spotify_pagination_view.send_view_and_embed(interaction)
+    logger.info("My playlists sent.")
   # endregion
 
   # region playlists

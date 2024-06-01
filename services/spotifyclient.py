@@ -82,7 +82,7 @@ class SpotifyClient:
     if not self.sp:
       return None
 
-    self.top_tracks = []
+    self.clear_top_tracks()
 
     try:
       tracks = self.sp.current_user_top_tracks(limit=limit)["items"]
@@ -93,7 +93,7 @@ class SpotifyClient:
 
     except spotipy.SpotifyException as e:
       logger.error(f"Failed to get top tracks: {e}")
-      self.top_tracks = []
+      self.clear_top_tracks()
 
     logger.info(f"Top tracks: {self.top_tracks}")
     return self.top_tracks
@@ -118,13 +118,15 @@ class SpotifyClient:
     if not self.sp:
       return None
 
+    self.clear_recommendations()
+
     if self.top_tracks == []:
       try:
         self.top_tracks = self.get_user_top_tracks()
       except spotipy.SpotifyException as e:
         logger.error(f"Failed to get top tracks: {e}")
         print(f"Failed to get top tracks: {e}")
-        self.top_tracks = []
+        self.clear_top_tracks()
 
     # Get seeds to get recommendations
     seed_tracks = []
@@ -158,7 +160,7 @@ class SpotifyClient:
     except spotipy.SpotifyException as e:
       logger.error(f"Failed to get recommendations: {e}")
       print(f"Failed to get recommendations: {e}")
-      self.recommendations = []
+      self.clear_recommendations()
 
     return self.recommendations
   # endregion
@@ -207,7 +209,7 @@ class SpotifyClient:
       except spotipy.SpotifyException as e:
         logger.error("Error getting recommendations: {e}")
         print(f"Failed to get recommendations: {e}")
-        self.recommendations = []
+        self.clear_recommendations()
 
     #  Use the helper method to add tracks to the playlist
     try:

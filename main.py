@@ -30,9 +30,9 @@ async def on_ready():
     )
   )
   logger.info(f"{bot.user.name} is ready!")
+  print(f"{bot.user.name} is ready!")
   print("------")
 # endregion
-
 
 # region load_extensions
 def load_extensions():

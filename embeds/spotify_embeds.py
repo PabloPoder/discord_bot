@@ -11,38 +11,41 @@ from utils.const import SPOTIFY_LOGO
 
 # region create_tracks_embed
 def create_tracks_embed(
-    top_tracks:List[Track],
+    tracks:List[Track],
     is_recommendation: bool = False,
-    title: str = None
+    page: str = None
   ) -> Embed:
-  '''Create an embed with the user's top tracks
+  '''Create an embed with the user's top tracks or recommendations.
 
   Parameters
   ----------
-  top_tracks: `list`
-      The list of the user's top tracks.
+  tracks: `list`
+    The list of the user's top tracks or recommendations.
   is_recommendation: `bool`
-      A boolean to check if the tracks are recommendations.
+    A boolean to check if the tracks are recommendations.
+  page: `str`
+    The page number.
 
   Returns
   -------
   :class:`Embed`
-      The embed with the user's top tracks.
+    The embed with the user's top tracks.
   '''
+  title = "Recommendations" if is_recommendation else "Top Tracks"
+  title += f" • Page {page}" if page else ""
+  description = "Here are some recommendations for you!" if is_recommendation else "Here are your top tracks!"
 
-  {"Top Tracks" if not is_recommendation else "Recommendations"} if not title else title
   embed:Embed = Embed(
     title=title,
-    description="Here are your top tracks!"
-      if not is_recommendation else "Here are some recommendations for you!",
+    description=description,
     color=discord.Color.blurple()
   )
 
-  embed.set_thumbnail(url=top_tracks[0].images)
+  embed.set_thumbnail(url=tracks[0].images)
 
   embed.set_footer(text="Powered by Spotify", icon_url=SPOTIFY_LOGO)
 
-  for index, track in enumerate(top_tracks):
+  for index, track in enumerate(tracks):
     embed.add_field(
       name=f"{index + 1}. {track.name}",
       value=f"{track.artists[0]['name']}\n[Listen on Spotify]({track.uri})",
@@ -53,21 +56,29 @@ def create_tracks_embed(
 # endregion
 
 # region create_playlists_embed
-def create_playlists_embed(playlists:List[Playlist]) -> Embed:
+def create_playlists_embed(
+    playlists:List[Playlist],
+    page: str = None
+  ) -> Embed:
   '''Create an embed with the user's playlists
 
   Parameters
   ----------
   playlists: `list`
-      The list of the user's playlists.
+    The list of the user's playlists.
+  page: `str` or `None`
+    The page number.
 
   Returns
   -------
   :class:`Embed`
-      The embed with the user's playlists.
+    The embed with the user's playlists.
   '''
+  title = "Playlists"
+  title += f" • Page {page}" if page else ""
+
   embed:Embed = Embed(
-    title="Playlists",
+    title=title,
     description="Here are your playlists!",
     color=discord.Color.blurple()
   )
