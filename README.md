@@ -1,4 +1,5 @@
-# Discord bot
+# Discord bot - Rachael Nexus 7
+![Rachael](https://tenor.com/view/blade-runner-rachael-sean-young-gif-23479906.gif)
 
 ## Description 📄
 
