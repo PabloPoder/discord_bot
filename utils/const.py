@@ -59,3 +59,13 @@ SPOTIFY_LOGO = "https://cdn.iconscout.com/icon/free/png-256/spotify-11-432546.pn
 SPOTIFY_SCOPE = "user-top-read user-library-read playlist-modify-public playlist-modify-private"
 SPOTIFY_REDIRECT_URI = "http://localhost:8888"
 # endregion
+
+# region reactions
+WORDS_TO_REACT = [
+  "ey",
+  "for honor",
+  "mine",
+  "minecraft",
+  "cerrando, dale?"
+]
+# endregion

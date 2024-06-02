@@ -9,7 +9,6 @@ from utils.apikeys import TEST_SERVER_ID, YOUR_USER_ID
 from embeds.spotify_embeds import (
   create_playlist_created_embed,
   create_playlists_embed,
-  create_tracks_embed
 )
 from services.spotifyclient import SpotifyClient
 from utils.logger_config import logger
