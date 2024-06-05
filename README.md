@@ -1,4 +1,5 @@
 # Discord bot - Rachael Nexus 7
+
 ![Rachael](https://tenor.com/view/blade-runner-rachael-sean-young-gif-23479906.gif)
 
 ## Description 📄
@@ -25,30 +26,30 @@ Feel free to explore and use these commands to enhance your Discord server!
 
 ## Installation 🛠
 
-1; Clone the repository:
+1. Clone the repository:
 
-```bash
-git clone
-```
+    ```bash
+    git clone
+    ```
 
-2; Install the required libraries:
+2. Install the required libraries:
 
-```bash
-pip install -r requirements.txt
-```
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-3; Create a `.env` file and add the following environment variables, check `apikeys.py` for the required keys:
+3. Create a `.env` file and add the following environment variables, check `apikeys.py` for the required keys:
 
-```bash
-DISCORD_TOKEN
-WEATHER_API_KEY
-SPOTIFY_CLIENT_ID
-SPOTIFY_CLIENT_SECRET
-...
-```
+    ```bash
+    DISCORD_TOKEN
+    WEATHER_API_KEY
+    SPOTIFY_CLIENT_ID
+    SPOTIFY_CLIENT_SECRET
+    ...
+    ```
 
-4; Run the bot:
+4. Run the bot:
 
-```bash
-python bot.py
-```
+    ```bash
+    python bot.py
+    ```

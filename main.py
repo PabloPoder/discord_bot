@@ -40,7 +40,7 @@ def load_extensions():
   Load all the extensions in the cogs folder.
 
   Parameters
-----------
+  ----------
   None
   '''
   initial_extensions = []
