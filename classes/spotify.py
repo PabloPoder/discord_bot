@@ -94,7 +94,7 @@ class Track:
       The Track object created from the dictionary.
     '''
     # Check if there are images in the dictionary. If there are, get the first image
-    images_urls = data.get('images', [{}])
+    images_urls = data.get('album', {}).get('images', [{}])
     if images_urls:
       image = images_urls[0].get('url', "")
     else:
