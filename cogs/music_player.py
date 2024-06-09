@@ -259,7 +259,6 @@ class MusicPlayer(commands.Cog):
         
         if not self.is_playing[id]:
           await self.play_music(interaction)
-          logger.debug("playing music -")
         else:
           await interaction.followup.send(f'Added {video_song.title} to the queue.', ephemeral=True)
   # endregion
