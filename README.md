@@ -57,5 +57,3 @@ Feel free to explore and use these commands to enhance your Discord server!
 ## Contributions
 
 Contributions are welcome! If you want to improve the app, please open an "issue" or submit a "pull request".
-
-Enjoy exploring and saving your favorite places with MyPlaces! 🌍✨
