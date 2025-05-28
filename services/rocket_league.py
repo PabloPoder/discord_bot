@@ -26,7 +26,7 @@ async def fetch_player_data(nametag:str):
   '''
   # Set the headers for the request, simulate the request from a browser
   headers = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "+
+    "User-Agent": "Mozilla/5.0 (Windows NT 11.0; Win64; x64) "+
     "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
   }
   try:

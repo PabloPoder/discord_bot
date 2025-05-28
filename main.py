@@ -13,8 +13,8 @@ from utils.logger_config import logger
 
 intents = discord.Intents.all()
 
-# bot = commands.Bot(command_prefix='/', intents=intents)
-bot = commands.Bot(intents=intents)
+bot = commands.Bot(command_prefix='/', intents=intents)
+# bot = commands.Bot(intents=intents)
 
 # region on_ready event
 @bot.event

@@ -42,25 +42,26 @@ class SpotifyClient:
       The Spotify object to interact with the Spotify API.
     '''
 
-    # Create the spotify oauth object
-    oauth = SpotifyOAuth(
-      client_id=SPOTIFY_CLIENT_ID,
-      client_secret=SPOTIFY_CLIENT_SECRET,
-      redirect_uri=SPOTIFY_REDIRECT_URI,
-      scope=SPOTIFY_SCOPE,
-    )
-
+    try:
+      # Create the spotify oauth object
+      sp = spotipy.Spotify(auth_manager=SpotifyOAuth(
+        client_id=SPOTIFY_CLIENT_ID,
+        client_secret=SPOTIFY_CLIENT_SECRET,
+        redirect_uri=SPOTIFY_REDIRECT_URI,
+        scope=SPOTIFY_SCOPE,
+        cache_path=".cache-spotify"
+      ))
+      # Check if the authentication was successful
+      if not sp:
+        logger.error("Failed to create Spotify object. Check your credentials.")
+        return None
+      logger.info(sp.current_user())
+      
+      return sp
     
-    logger.debug(f"OAuth: {oauth.get_authorize_url()}")
-
-    if oauth.is_token_expired(oauth.get_cached_token()):
-      oauth.refresh_access_token(oauth.get_cached_token()['refresh_token'])
-
-    # Get the token
-    token = oauth.get_access_token(as_dict=False)
-
-    # Create the Spotify object with the token and return it
-    return spotipy.Spotify(auth=token)
+    except Exception as e:
+      logger.error(f"Error al crear el objeto Spotify: {e}")
+      return None
   # endregion
 
   # region get_user_top_tracks
@@ -98,8 +99,9 @@ class SpotifyClient:
     logger.info(f"Top tracks: {self.top_tracks}")
     return self.top_tracks
   # endregion
-
+  
   # region get_recommendations
+  # TODO: Deprecated method by the Spotify API.
   def get_recommendations(self, limit:int = 5) -> list[Track]:
     '''
     Get recommendations from the Spotify API.
@@ -131,26 +133,38 @@ class SpotifyClient:
     # Get seeds to get recommendations
     seed_tracks = []
     seed_artists = []
-    try:
-      seed_genres = self.sp.artist(self.top_tracks[0].artists[0]['id'])['genres']
-
-    except spotipy.SpotifyException as e:
-      logger.error(f"Failed to get seed genres: {e}")
-      print(f"Failed to get seed genres: {e}")
-      seed_genres = []
-
+    # Seed artists and tracks from the top tracks
     for track in self.top_tracks:
       seed_artists.append(track.artists[0]['id'])
       seed_tracks.append(track.track_id)
 
+    # Seed genres from the first artist
+    if not seed_artists or not seed_tracks:
+      logger.error("No seed artists or tracks found. Cannot get recommendations.")
+      print("No seed artists or tracks found. Cannot get recommendations.")
+      return []
+    
+    seed_genres = self.sp.artist(seed_artists[0])['genres']
+    
+    logger.info(f"Seed artists: {seed_artists}")
+    logger.info(f"Seed tracks: {seed_tracks}")
+    logger.info(f"Seed genres: {seed_genres}")
+
     # Get recommendations
     try:
-      new_recommendations = self.sp.recommendations(
-        seed_genres=seed_genres,
-        seed_tracks=seed_tracks[:2],
-        seed_artists=seed_artists[:2],
-        limit=limit
-      )['tracks']
+      if not seed_genres:
+        new_recommendations = self.sp.recommendations(
+          seed_tracks=seed_tracks[:3],
+          seed_artists=seed_artists[:2],
+          limit=limit
+        )['tracks']    
+      else:
+        new_recommendations = self.sp.recommendations(
+          seed_genres=seed_genres,
+          seed_tracks=seed_tracks[:2],
+          seed_artists=seed_artists[:2],
+          limit=limit
+        )['tracks']
 
       # Convert the recommendations to Track objects
       for track in new_recommendations:
